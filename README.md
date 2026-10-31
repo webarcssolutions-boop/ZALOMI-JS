@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Zalomi School of Skills - Website (React Expo, JavaScript)
 
 One codebase: **Web + Android + iOS**. Backend for payments / contact form is in `server/`.
@@ -53,3 +54,6 @@ Phone testing: set `EXPO_PUBLIC_API_URL` to your computer's LAN address, e.g. `h
 
 ## 6. Security notes
 Amounts are computed on the server, payment signatures are verified on the server, and Razorpay secrets live only in `server/.env`. Never put the secret key in the Expo app.
+=======
+# ZALOMI-JS
+>>>>>>> 614d5f5df3529350206501e1ce93f416682c8f2c
