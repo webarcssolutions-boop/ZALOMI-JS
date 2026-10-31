@@ -1,0 +1,28 @@
+{
+  "expo": {
+    "name": "Zalomi School of Skills",
+    "slug": "zalomi-school-of-skills",
+    "version": "1.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#F7FAFD",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F7FAFD"
+    },
+    "ios": { "supportsTablet": true, "bundleIdentifier": "com.zalomi.academy" },
+    "android": {
+      "package": "com.zalomi.academy",
+      "adaptiveIcon": { "foregroundImage": "./assets/icon.png", "backgroundColor": "#F7FAFD" }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/favicon.png",
+      "name": "Zalomi School of Skills",
+      "shortName": "Zalomi"
+    }
+  }
+}
