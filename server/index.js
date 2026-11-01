@@ -5,6 +5,7 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const Razorpay = require('razorpay');
+const nodemailer = require('nodemailer');
 const FEES = require('./fees');
 
 const app = express();
@@ -20,6 +21,15 @@ app.use(express.json({ limit: '100kb', verify: (req, _res, buf) => { req.rawBody
 const razor = process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET
   ? new Razorpay({ key_id: process.env.RAZORPAY_KEY_ID, key_secret: process.env.RAZORPAY_KEY_SECRET })
   : null;
+const contactMailer = process.env.SMTP_HOST && process.env.SMTP_USER && process.env.SMTP_APP_PASSWORD
+  ? nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: Number(process.env.SMTP_PORT || 465),
+      secure: process.env.SMTP_SECURE ? process.env.SMTP_SECURE === 'true' : Number(process.env.SMTP_PORT || 465) === 465,
+      auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_APP_PASSWORD },
+    })
+  : null;
+const contactRecipient = process.env.CONTACT_TO_EMAIL || 'webarcssolutions@gmail.com';
 const needRazor = (res) => {
   if (!razor) { res.status(503).json({ error: 'Payments are not configured yet.' }); return false; }
   return true;
@@ -53,13 +63,41 @@ function customerFrom(b) {
 app.get('/api/health', (_req, res) => res.json({ ok: true, payments: !!razor }));
 
 // ---- Contact form ----
-app.post('/api/contact', (req, res) => {
+app.post('/api/contact', async (req, res) => {
   const b = req.body || {};
   const row = { name: str(b.name, 100), email: str(b.email, 120), phone: str(b.phone, 20), program: str(b.program, 100), message: str(b.message, 2000), at: new Date().toISOString() };
-  if (row.name.length < 2 || !emailOk(row.email) || row.message.length < 5) return res.status(400).json({ error: 'Please fill in all required fields.' });
+  if (row.name.length < 2 || !emailOk(row.email) || row.phone.replace(/\D/g, '').length < 10 || row.message.length < 5) {
+    return res.status(400).json({ error: 'Please fill in all required fields.' });
+  }
+  if (!contactMailer) {
+    return res.status(503).json({ error: 'Email delivery is not configured yet. Please contact us by email.' });
+  }
   append('enquiries.json', row);
-  console.log('New enquiry from', row.name, row.email);
-  // TODO: send an email to info@zalomiacademy.com here (e.g. with nodemailer)
+  try {
+    await contactMailer.sendMail({
+      from: { name: 'Zalomi Website', address: process.env.SMTP_FROM_EMAIL || process.env.SMTP_USER },
+      to: contactRecipient,
+      replyTo: row.email,
+      subject: `Website enquiry: ${row.name}`,
+      text: [
+        'New message from the Zalomi School of Skills website',
+        '',
+        `Name: ${row.name}`,
+        `Email: ${row.email}`,
+        `Phone: ${row.phone}`,
+        `Program of interest: ${row.program || 'Not specified'}`,
+        '',
+        'Message:',
+        row.message,
+        '',
+        `Received: ${row.at}`,
+      ].join('\n'),
+    });
+  } catch (error) {
+    console.error('Contact email delivery failed:', error);
+    return res.status(502).json({ error: 'We could not send your message right now. Please try again later.' });
+  }
+  console.log('New enquiry emailed to', contactRecipient, 'from', row.email);
   res.json({ ok: true });
 });
 
