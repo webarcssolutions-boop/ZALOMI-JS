@@ -60,15 +60,43 @@ export function Grid({ cols = 4, gap = 20, style, children, itemStyle }) {
   );
 }
 
-/** Pressable with web hover state */
-export function Press({ onPress, style, children, hoverStyle, ...rest }) {
-  const [h, setH] = useState(false);
+/** Shared interactive feedback for links, buttons, cards, and menu items. */
+export function Press({
+  onPress,
+  onHoverIn,
+  onHoverOut,
+  onPressIn,
+  onPressOut,
+  onFocus,
+  onBlur,
+  disabled,
+  style,
+  children,
+  hoverStyle,
+  focusStyle,
+  ...rest
+}) {
+  const [hovered, setHovered] = useState(false);
+  const [pressed, setPressed] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const isWeb = Platform.OS === 'web';
   return (
     <Pressable
       onPress={onPress}
-      onHoverIn={() => setH(true)}
-      onHoverOut={() => setH(false)}
-      style={[style, h && hoverStyle, Platform.OS === 'web' ? { cursor: 'pointer' } : null]}
+      onHoverIn={(event) => { setHovered(true); if (onHoverIn) onHoverIn(event); }}
+      onHoverOut={(event) => { setHovered(false); if (onHoverOut) onHoverOut(event); }}
+      onPressIn={(event) => { setPressed(true); if (onPressIn) onPressIn(event); }}
+      onPressOut={(event) => { setPressed(false); if (onPressOut) onPressOut(event); }}
+      onFocus={(event) => { setFocused(true); if (onFocus) onFocus(event); }}
+      onBlur={(event) => { setFocused(false); if (onBlur) onBlur(event); }}
+      disabled={disabled}
+      style={[
+        style,
+        !disabled && (hovered || focused) ? (hoverStyle || { opacity: 0.9 }) : null,
+        !disabled && pressed ? { opacity: 0.76 } : null,
+        isWeb ? { cursor: disabled ? 'default' : 'pointer', transition: 'opacity 160ms ease' } : null,
+        isWeb && focused ? (focusStyle === undefined ? { outlineColor: COLORS.blue, outlineWidth: 2, outlineStyle: 'solid' } : focusStyle) : null,
+      ]}
       accessibilityRole="button"
       {...rest}
     >

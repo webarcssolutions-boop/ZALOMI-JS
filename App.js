@@ -5,7 +5,7 @@ import {
   useFonts, Montserrat_400Regular, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold, Montserrat_800ExtraBold,
 } from '@expo-google-fonts/montserrat';
 
-import { COLORS, MAX_WIDTH } from './src/theme/theme';
+import { COLORS } from './src/theme/theme';
 import { RouterProvider, useRouter } from './src/navigation/Router';
 import Header from './src/components/Header';
 import Footer from './src/components/Footer';
@@ -47,9 +47,9 @@ function Shell() {
   }, [route.path]);
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#EEF3F8' }}>
+    <View style={{ flex: 1, width: '100%', backgroundColor: '#fff' }}>
       <ScrollView ref={scroller} style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={Platform.OS === 'web'}>
-        <View style={{ width: '100%', maxWidth: MAX_WIDTH, alignSelf: 'center', backgroundColor: '#fff', flexGrow: 1 }}>
+        <View style={{ width: '100%', backgroundColor: '#fff', flexGrow: 1 }}>
           <Header />
           <Screen key={route.path} />
         </View>

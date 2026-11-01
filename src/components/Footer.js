@@ -75,24 +75,26 @@ export default function Footer() {
     </Col>
   );
   return (
-    <View style={{ backgroundColor: COLORS.navy, width: '100%', maxWidth: MAX_WIDTH, alignSelf: 'center' }}>
-      <View style={{ paddingHorizontal: pad, paddingTop: isMobile ? 36 : 44, paddingBottom: 24 }}>
-        {isDesktop ? (
-          <View style={{ flexDirection: 'row', gap: 36 }}>{brand}{quick}{progs}{contact}</View>
-        ) : (
-          <View style={{ gap: 28 }}>
-            {brand}
-            <View style={{ flexDirection: isMobile ? 'column' : 'row', gap: 28 }}>{quick}{progs}</View>
-            {contact}
-          </View>
-        )}
-        <View style={{ height: 1, backgroundColor: '#fff', marginTop: 30, marginBottom: 14 }} />
-        <View style={{ flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', gap: 8 }}>
-          <T size={10} color="#fff">(C) 2026 Zalomi School of Skills. All rights reserved.</T>
-          <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
-            <Press onPress={() => navigate('/legal/privacy')}><T size={10} color="#fff">Privacy Policy</T></Press>
-            <T size={10} color="#fff">|</T>
-            <Press onPress={() => navigate('/legal/terms')}><T size={10} color="#fff">Terms & Conditions</T></Press>
+    <View style={{ backgroundColor: COLORS.navy, width: '100%' }}>
+      <View style={{ width: '100%', maxWidth: MAX_WIDTH, alignSelf: 'center' }}>
+        <View style={{ paddingHorizontal: pad, paddingTop: isMobile ? 36 : 44, paddingBottom: 24 }}>
+          {isDesktop ? (
+            <View style={{ flexDirection: 'row', gap: 36 }}>{brand}{quick}{progs}{contact}</View>
+          ) : (
+            <View style={{ gap: 28 }}>
+              {brand}
+              <View style={{ flexDirection: isMobile ? 'column' : 'row', gap: 28 }}>{quick}{progs}</View>
+              {contact}
+            </View>
+          )}
+          <View style={{ height: 1, backgroundColor: '#fff', marginTop: 30, marginBottom: 14 }} />
+          <View style={{ flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', gap: 8 }}>
+            <T size={10} color="#fff">(C) 2026 Zalomi School of Skills. All rights reserved.</T>
+            <View style={{ flexDirection: 'row', gap: 12, alignItems: 'center' }}>
+              <Press onPress={() => navigate('/legal/privacy')}><T size={10} color="#fff">Privacy Policy</T></Press>
+              <T size={10} color="#fff">|</T>
+              <Press onPress={() => navigate('/legal/terms')}><T size={10} color="#fff">Terms & Conditions</T></Press>
+            </View>
           </View>
         </View>
       </View>

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Image, Platform } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, View, Image, Platform } from 'react-native';
 import { COLORS, MAX_WIDTH, useLayout } from '../theme/theme';
 import { IMG } from '../theme/images';
 import { T, Icon, Press } from '../theme/ui';
@@ -36,23 +36,54 @@ function DesktopNav() {
   const { route, navigate } = useRouter();
   const { sc, pad } = useLayout();
   const [open, setOpen] = useState(null);
+  const [hoveredItem, setHoveredItem] = useState(null);
+  const [itemLayouts, setItemLayouts] = useState({});
+  const indicatorLeft = useRef(new Animated.Value(0)).current;
+  const indicatorTop = useRef(new Animated.Value(0)).current;
+  const indicatorWidth = useRef(new Animated.Value(0)).current;
   const gap = Math.round(36 * sc);
   const size = Math.max(13, Math.round(15 * sc));
   const goPortal = () => (CONFIG.portalUrl ? navigate(CONFIG.portalUrl) : navigate('/student-portal'));
+  const activeItem = NAV.find((item) => isActive(item, route.path));
+  const indicatorItem = hoveredItem ? NAV.find((item) => item.label === hoveredItem) : activeItem;
+
+  useEffect(() => {
+    const layout = indicatorItem && itemLayouts[indicatorItem.label];
+    if (!layout) return;
+    Animated.parallel([
+      Animated.spring(indicatorLeft, { toValue: layout.x, useNativeDriver: false, speed: 20, bounciness: 0 }),
+      Animated.spring(indicatorTop, { toValue: layout.y + layout.height - 2, useNativeDriver: false, speed: 20, bounciness: 0 }),
+      Animated.spring(indicatorWidth, { toValue: layout.width, useNativeDriver: false, speed: 20, bounciness: 0 }),
+    ]).start();
+  }, [indicatorItem, itemLayouts, indicatorLeft, indicatorTop, indicatorWidth]);
+
   return (
-    <View style={{ flexDirection: 'row', alignItems: 'center', gap }}>
+    <View
+      style={{ flexDirection: 'row', alignItems: 'center', gap, position: 'relative' }}
+      onPointerLeave={Platform.OS === 'web' ? () => setHoveredItem(null) : undefined}
+    >
       {NAV.map((item) => {
-        const active = isActive(item, route.path);
         const hasKids = !!item.children;
         return (
           <View key={item.label} style={{ position: 'relative' }}
-            onPointerEnter={hasKids && Platform.OS === 'web' ? () => setOpen(item.label) : undefined}
+            onLayout={(event) => {
+              const { x, y, width, height } = event.nativeEvent.layout;
+              setItemLayouts((current) => {
+                const previous = current[item.label];
+                if (previous && previous.x === x && previous.y === y && previous.width === width && previous.height === height) return current;
+                return { ...current, [item.label]: { x, y, width, height } };
+              });
+            }}
+            onPointerEnter={Platform.OS === 'web' ? () => {
+              setHoveredItem(item.label);
+              if (hasKids) setOpen(item.label);
+            } : undefined}
             onPointerLeave={hasKids && Platform.OS === 'web' ? () => setOpen(null) : undefined}>
-            <Press onPress={() => { setOpen(null); navigate(item.to); }} style={{ flexDirection: 'row', alignItems: 'center', gap: 2, paddingVertical: 6 }}
-              hoverStyle={{ opacity: 0.7 }}>
+            <Press onPress={() => { setOpen(null); navigate(item.to); }} onFocus={() => setHoveredItem(item.label)}
+              style={{ flexDirection: 'row', alignItems: 'center', gap: 2, paddingVertical: 6 }}
+              hoverStyle={{ opacity: 0.7 }} focusStyle={{ outlineStyle: 'none' }}>
               <T w="sb" size={size} lh={size + 6}>{item.label}</T>
               {hasKids ? <Icon name="chevron-down" size={size + 2} color={COLORS.navy} /> : null}
-              {active ? <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 2, backgroundColor: COLORS.navy }} /> : null}
             </Press>
             {hasKids && open === item.label ? (
               <View style={{ position: 'absolute', top: '100%', left: -12, minWidth: 210, backgroundColor: '#fff', borderRadius: 12, paddingVertical: 8,
@@ -68,6 +99,17 @@ function DesktopNav() {
           </View>
         );
       })}
+      <Animated.View
+        pointerEvents="none"
+        style={{
+          position: 'absolute',
+          left: indicatorLeft,
+          top: indicatorTop,
+          width: indicatorWidth,
+          height: 2,
+          backgroundColor: COLORS.navy,
+        }}
+      />
       <PortalPill onPress={goPortal} />
     </View>
   );
@@ -111,19 +153,21 @@ export default function Header() {
   const { navigate } = useRouter();
   const [menu, setMenu] = useState(false);
   return (
-    <View style={{ backgroundColor: COLORS.headerBg, zIndex: 50, width: '100%', maxWidth: MAX_WIDTH, alignSelf: 'center' }}>
-      <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-        paddingHorizontal: pad, paddingVertical: isDesktop ? 14 : 10, minHeight: isDesktop ? 124 : 72 }}>
-        <Logo width={isDesktop ? 150 : isMobile ? 84 : 100} onPress={() => navigate('/')} />
-        {isDesktop ? (
-          <DesktopNav />
-        ) : (
-          <Press onPress={() => setMenu(!menu)} accessibilityLabel="Menu" style={{ padding: 6 }}>
-            <Icon name={menu ? 'close' : 'menu'} size={30} />
-          </Press>
-        )}
+    <View style={{ backgroundColor: COLORS.headerBg, zIndex: 50, width: '100%' }}>
+      <View style={{ width: '100%', maxWidth: MAX_WIDTH, alignSelf: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+          paddingHorizontal: pad, paddingVertical: isDesktop ? 14 : 10, minHeight: isDesktop ? 124 : 72 }}>
+          <Logo width={isDesktop ? 150 : isMobile ? 84 : 100} onPress={() => navigate('/')} />
+          {isDesktop ? (
+            <DesktopNav />
+          ) : (
+            <Press onPress={() => setMenu(!menu)} accessibilityLabel="Menu" style={{ padding: 6 }}>
+              <Icon name={menu ? 'close' : 'menu'} size={30} />
+            </Press>
+          )}
+        </View>
+        {!isDesktop && menu ? <MobileMenu close={() => setMenu(false)} /> : null}
       </View>
-      {!isDesktop && menu ? <MobileMenu close={() => setMenu(false)} /> : null}
     </View>
   );
 }
