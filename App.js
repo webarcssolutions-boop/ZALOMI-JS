@@ -1,9 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { ActivityIndicator, Platform, ScrollView, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import {
-  useFonts, Montserrat_400Regular, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold, Montserrat_800ExtraBold,
-} from '@expo-google-fonts/montserrat';
+import { useFonts } from 'expo-font';
 
 import { COLORS } from './src/theme/theme';
 import { RouterProvider, useRouter } from './src/navigation/Router';
@@ -36,6 +34,14 @@ const TITLES = {
   admission: 'Admission', paymentResult: 'Payment', portal: 'Student Portal', legal: 'Legal',
 };
 
+const FONTS = {
+  Montserrat_400Regular: require('./assets/fonts/Montserrat-Regular.ttf'),
+  Montserrat_500Medium: require('./assets/fonts/Montserrat-Medium.ttf'),
+  Montserrat_600SemiBold: require('./assets/fonts/Montserrat-SemiBold.ttf'),
+  Montserrat_700Bold: require('./assets/fonts/Montserrat-Bold.ttf'),
+  Montserrat_800ExtraBold: require('./assets/fonts/Montserrat-ExtraBold.ttf'),
+};
+
 function Shell() {
   const { route } = useRouter();
   const scroller = useRef(null);
@@ -60,10 +66,13 @@ function Shell() {
 }
 
 export default function App() {
-  const [loaded] = useFonts({
-    Montserrat_400Regular, Montserrat_500Medium, Montserrat_600SemiBold, Montserrat_700Bold, Montserrat_800ExtraBold,
-  });
-  if (!loaded) {
+  const [loaded, error] = useFonts(FONTS);
+
+  useEffect(() => {
+    if (error) console.error('Unable to load Montserrat fonts; continuing with system fonts.', error);
+  }, [error]);
+
+  if (!loaded && !error) {
     return (
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: COLORS.headerBg }}>
         <ActivityIndicator size="large" color={COLORS.navy} />
