@@ -5,11 +5,13 @@ import { IMG } from '../theme/images';
 import { T, Icon, IconCircle, Btn, Press } from '../theme/ui';
 
 /** Light-blue card with icon in a circle, bold title and short text (support / what-you-get cards) */
-export function SupportCard({ icon, title, desc, bg = COLORS.skyCard, align = 'center', minH, iconSize = 64 }) {
+export function SupportCard({ icon, iconImage, title, desc, bg = COLORS.skyCard, align = 'center', minH, iconSize = 64 }) {
   const { isMobile } = useLayout();
   return (
     <View style={{ backgroundColor: bg, borderRadius: 10, paddingHorizontal: 18, paddingVertical: 24, alignItems: align === 'center' ? 'center' : 'flex-start', minHeight: minH, flex: 1 }}>
-      <IconCircle name={icon} size={iconSize} />
+      {iconImage
+        ? <Image source={iconImage} style={{ width: iconSize, height: iconSize }} resizeMode="contain" />
+        : <IconCircle name={icon} size={iconSize} />}
       <T w="b" size={isMobile ? 17 : 18} align={align} lh={24} style={{ marginTop: 14 }}>{title}</T>
       <T w="m" size={12.5} align={align} color={COLORS.text} lh={18} style={{ marginTop: 8 }}>{desc}</T>
     </View>

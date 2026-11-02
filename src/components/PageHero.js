@@ -10,7 +10,7 @@ import { T, Btn, ContentFrame } from '../theme/ui';
  */
 export default function PageHero({
   img, eyebrow, title, titleColor = COLORS.navy, sub, subColor = COLORS.blue, body, bodyColor = COLORS.blue,
-  cta, onCta, ctaVariant = 'outlineOrange', bg, titleSize = 60, textWidth = '46%', textOffsetY = 0, desktopAspectRatio, children,
+  cta, onCta, ctaVariant = 'outlineOrange', bg, titleSize = 60, textWidth = '46%', bodyWidth = '100%', textOffsetY = 0, desktopAspectRatio, imageOverlay, children,
 }) {
   const a = IMG[img];
   const { isDesktop, isMobile, pad, sc } = useLayout();
@@ -21,7 +21,7 @@ export default function PageHero({
       {eyebrow ? <T w="m" size={isMobile ? 13 : Math.round(17 * f)} color={COLORS.teal} style={{ letterSpacing: 3, marginBottom: 8 }}>{eyebrow}</T> : null}
       <T w="xb" size={tSize} lh={Math.round(tSize * 1.15)} color={titleColor}>{title}</T>
       {sub ? <T w="m" size={isMobile ? 15 : Math.round(20 * f)} color={subColor} style={{ marginTop: 14 }}>{sub}</T> : null}
-      {body ? <T w="m" size={isMobile ? 14 : Math.round(16 * f)} color={bodyColor} lh={Math.round((isMobile ? 14 : 16 * f) * 1.55)} style={{ marginTop: 14 }}>{body}</T> : null}
+      {body ? <T w="m" size={isMobile ? 14 : Math.round(16 * f)} color={bodyColor} lh={Math.round((isMobile ? 14 : 16 * f) * 1.55)} style={{ marginTop: 14, width: bodyWidth }}>{body}</T> : null}
       {cta ? <Btn label={cta} onPress={onCta} variant={ctaVariant} style={{ marginTop: 22 }} /> : null}
       {children}
     </View>
@@ -37,6 +37,7 @@ export default function PageHero({
   return (
     <View style={{ width: '100%', aspectRatio: desktopAspectRatio || a.w / a.h, backgroundColor: bg || a.left }}>
       <Image source={a.src} style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' }} resizeMode="cover" />
+      {imageOverlay ? <Image source={imageOverlay} style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' }} resizeMode="stretch" /> : null}
       <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center' }}>
         <ContentFrame style={{ height: '100%', justifyContent: 'center' }}>
           <View style={{ width: textWidth, transform: [{ translateY: textOffsetY }] }}>{text}</View>

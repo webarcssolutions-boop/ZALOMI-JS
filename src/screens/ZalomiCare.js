@@ -43,10 +43,12 @@ export default function ZalomiCare() {
   const h2 = isMobile ? 24 : Math.round(30 * sc);
   return (
     <View>
-      <PageHero img="care_hero" eyebrow="ZALOMI CARE" title="Zalomi Care" titleSize={54} textWidth="50%"
-        sub={'Guidance Beyond the Academy.\nSupport for Every Step.'}
-        body="Zalomi Care is Zalomi's dedicated brand for smartphone, computer, and electronic gadget service and maintenance. We aim to make dependable technology care accessible while helping skilled professionals become entrepreneurs through a structured franchise network."
-        cta="Read More" onCta={() => navigate('/about')} />
+      <View style={{ marginBottom: 16 }}>
+        <PageHero img="care_hero" eyebrow="ZALOMI CARE" title="Zalomi Care" titleSize={54} textWidth="50%" imageOverlay={require('../../assets/images/care_hero_fade_overlay.png')}
+          sub={'Guidance Beyond the Academy.\nSupport for Every Step.'}
+          body="Zalomi Care is Zalomi's dedicated brand for smartphone, computer, and electronic gadget service and maintenance. We aim to make dependable technology care accessible while helping skilled professionals become entrepreneurs through a structured franchise network."
+          cta="Read More" onCta={() => navigate('/about')} />
+      </View>
       <Band img="care_journey">
         <T w="xb" size={h2} lh={Math.round(h2 * 1.3)}>Your Business Journey{'\n'}Starts Here</T>
         <T w="m" size={isMobile ? 14 : 17} color={COLORS.blue} lh={isMobile ? 22 : 27} style={{ marginTop: 16, maxWidth: 420 }}>
