@@ -86,10 +86,10 @@ export function StatsStrip({ onDark }) {
   const containerRef = useRef(null);
   const col = COLORS.navy;
   const items = [
-    { icon: 'file-document-outline', target: 11, label: 'Courses' },
-    { icon: 'bank', target: 1000, suffix: '+', label: 'Global Universities' },
-    { icon: 'shield-check-outline', target: 100, suffix: '%', label: 'Career Support' },
-    { icon: 'hand-heart-outline', iconBig: true, big: '', label: 'Opportunities' },
+    { source: require('../../assets/images/stats_11_program.png'), target: 11, label: 'Courses' },
+    { source: require('../../assets/images/stats_universities.png'), target: 1000, suffix: '+', label: 'Global Universities' },
+    { source: require('../../assets/images/stats_career_support.png'), target: 100, suffix: '%', label: 'Career Support' },
+    { source: require('../../assets/images/stats_opportunities.png'), iconBig: true, big: '', label: 'Opportunities' },
   ];
 
   useEffect(() => {
@@ -119,7 +119,7 @@ export function StatsStrip({ onDark }) {
       {items.map((it, i) => (
         <View key={i} style={{ width: isMobile ? '50%' : '25%', alignItems: 'center', paddingVertical: isMobile ? 16 : 6,
           borderLeftWidth: !isMobile && i > 0 ? 2 : 0, borderColor: '#29B6E8' }}>
-          <Icon name={it.icon} size={isMobile ? 40 : 54} color="#29B6E8" />
+          <Image source={it.source} style={{ width: isMobile ? 40 : 54, height: isMobile ? 40 : 54, tintColor: '#29B6E8' }} resizeMode="contain" />
           {it.iconBig ? <AnimatedOpportunityIcon size={isMobile ? 40 : 54} color={col} active={active} /> : <StatCounter target={it.target} suffix={it.suffix} size={isMobile ? 32 : 46} lineHeight={isMobile ? 40 : 56} color={col} active={active} />}
           <T w="m" size={isMobile ? 13 : 16} color={col}>{it.label}</T>
         </View>

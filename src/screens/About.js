@@ -11,10 +11,16 @@ const H3 = ({ children }) => {
   return <T w="b" size={isMobile ? 17 : 19} style={{ marginBottom: 18 }}>{children}</T>;
 };
 
-function MiniCard({ icon, title, desc, center, h }) {
+function CardIcon({ name, image, size }) {
+  return image
+    ? <Image source={image.src} style={{ width: size, height: size }} resizeMode="contain" />
+    : <IconCircle name={name} size={size} />;
+}
+
+function MiniCard({ icon, iconImage, title, desc, center, h }) {
   return (
-    <View style={{ flex: 1, backgroundColor: '#C2E7F9', borderRadius: 10, padding: 20, minHeight: h, alignItems: center ? 'center' : 'flex-start' }}>
-      <IconCircle name={icon} size={52} />
+    <View style={{ flex: 1, backgroundColor: '#C2E7F9', borderRadius: 7, padding: 20, minHeight: h, alignItems: center ? 'center' : 'flex-start' }}>
+      <CardIcon name={icon} image={iconImage} size={52} />
       <T w="b" size={13} align={center ? 'center' : 'left'} style={{ marginTop: 12 }}>{title}</T>
       <T w="m" size={11.5} color={COLORS.text} lh={17} align={center ? 'center' : 'left'} style={{ marginTop: 8 }}>{desc}</T>
     </View>
@@ -22,9 +28,11 @@ function MiniCard({ icon, title, desc, center, h }) {
 }
 
 export default function About() {
-  const { isMobile, isTablet, isDesktop, pad, sc } = useLayout();
+  const { isMobile, isTablet, isDesktop, width, pad, sc } = useLayout();
   const { navigate } = useRouter();
   const campus = IMG.campus, path = IMG.about_path, banner = IMG.about_banner;
+  const referenceCardLayout = width >= 900;
+  const purposeBannerHeight = Math.max(Math.round(width * banner.h / banner.w), Math.round(300 * sc));
   return (
     <View>
       {/* Top strip */}
@@ -82,37 +90,50 @@ export default function About() {
       {/* Competence */}
       <Section bg="#F6F9FC" vPad={isMobile ? 16 : 12}>
         <H3>Crafting Competence Through Practical Mastery</H3>
-        <Grid cols={isMobile ? 1 : isTablet ? 2 : 4} gap={22}>
-          <MiniCard icon="cog-outline" title="Technical & Vocational Mastery" desc="Hands on training in computer and smartphone servicing and specialized technical disciplines." h={170} />
-          <MiniCard icon="lightbulb-on-outline" title="Zalomi Care" desc="Zalomi Care is Zalomi's dedicated brand for smartphone, computer, and electronic gadget service and maintenance." h={170} />
-          <MiniCard icon="translate" title="Communication & Language Development" desc="Building articulate, confident communicators prepared for modern professional environments." h={170} />
-          <MiniCard icon="head-cog-outline" title="Entrepreneurial Readiness" desc="Cultivating commercial awareness and strategic thinking to help visionaries turn skills into sustainable enterprises." h={170} />
+        <Grid
+          cols={isMobile ? 1 : referenceCardLayout ? 4 : 2}
+          gap={referenceCardLayout ? 0 : 22}
+          style={referenceCardLayout ? { justifyContent: 'space-between', marginHorizontal: 0 } : undefined}
+          itemStyle={referenceCardLayout ? { width: '20.5%', padding: 0 } : undefined}
+        >
+          <MiniCard iconImage={IMG.about_technical_icon} title="Technical & Vocational Mastery" desc="Hands on training in computer and smartphone servicing and specialized technical disciplines." h={211} />
+          <MiniCard iconImage={IMG.about_care_icon} title="Zalomi Care" desc="Zalomi Care is Zalomi's dedicated brand for smartphone, computer, and electronic gadget service and maintenance." h={211} />
+          <MiniCard iconImage={IMG.about_communication_icon} title="Communication & Language Development" desc="Building articulate, confident communicators prepared for modern professional environments." h={211} />
+          <MiniCard iconImage={IMG.about_entrepreneurial_icon} title="Entrepreneurial Readiness" desc="Cultivating commercial awareness and strategic thinking to help visionaries turn skills into sustainable enterprises." h={211} />
         </Grid>
         <View style={{ height: 18 }} />
         <H3>Illuminating Pathways & Global Aspirations</H3>
-        <Grid cols={isMobile ? 1 : 2} gap={22}>
-          <WideCard icon="compass-outline" title="Career Lab & Assessments" desc="Utilizing psychometric tools and career Lab initiatives to uncover inherent strengths and match individual aspirations with the right paths." />
-          <WideCard icon="web" title="Global Mobility & Higher Education" desc="Providing structured guidance for international education, global career opportunities, and language proficiency requirements." />
+        <Grid
+          cols={isMobile ? 1 : 2}
+          gap={referenceCardLayout ? 0 : 22}
+          style={referenceCardLayout ? { justifyContent: 'space-between', marginHorizontal: 0 } : undefined}
+          itemStyle={referenceCardLayout ? { width: '49%', padding: 0 } : undefined}
+        >
+          <WideCard iconImage={IMG.about_career_lab_icon} title="Career Lab & Assessments" desc="Utilizing psychometric tools and career Lab initiatives to uncover inherent strengths and match individual aspirations with the right paths." />
+          <WideCard iconImage={IMG.about_global_mobility_icon} title="Global Mobility & Higher Education" desc="Providing structured guidance for international education, global career opportunities, and language proficiency requirements." />
         </Grid>
         <View style={{ height: 18 }} />
         <H3>Building a Collaborative Skill Ecosystem</H3>
-        <Grid cols={isMobile ? 1 : isTablet ? 2 : 3} gap={28}>
-          <MiniCard center icon="school-outline" title="Schools & Colleges" desc="Partnering with educational institution to create industry relevant learning pathways." h={170} />
-          <MiniCard center icon="account-group-outline" title="Employers & Industry" desc="Connecting learners with real world opportunities and industry experts." h={170} />
-          <MiniCard center icon="hand-heart-outline" title="Community Impact" desc="Creating inclusive access to quality education and skill development for all." h={170} />
+        <Grid
+          cols={isMobile ? 1 : referenceCardLayout ? 3 : isTablet ? 2 : 3}
+          gap={referenceCardLayout ? 0 : 28}
+          style={referenceCardLayout ? { justifyContent: 'space-between', marginHorizontal: 0 } : undefined}
+          itemStyle={referenceCardLayout ? { width: '25%', padding: 0 } : undefined}
+        >
+          <MiniCard center iconImage={IMG.about_schools_icon} title="Schools & Colleges" desc="Partnering with educational institution to create industry relevant learning pathways." h={195} />
+          <MiniCard center iconImage={IMG.about_employers_icon} title="Employers & Industry" desc="Connecting learners with real world opportunities and industry experts." h={195} />
+          <MiniCard center iconImage={IMG.about_community_icon} title="Community Impact" desc="Creating inclusive access to quality education and skill development for all." h={195} />
         </Grid>
       </Section>
 
       {/* Purpose banner */}
       <View style={{ marginTop: 24 }}>
         {isDesktop ? (
-          <View style={{ width: '100%', aspectRatio: banner.w / banner.h, backgroundColor: banner.left }}>
-            <Image source={banner.src} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode="cover" />
-            <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center' }}>
-              <ContentFrame style={{ height: '100%', justifyContent: 'center' }}>
-                <View style={{ width: '52%' }}><PurposeText /></View>
-              </ContentFrame>
-            </View>
+          <View style={{ width: '100%', minHeight: purposeBannerHeight, backgroundColor: banner.left }}>
+            <Image source={banner.src} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode="stretch" />
+            <ContentFrame style={{ minHeight: purposeBannerHeight, paddingVertical: Math.round(16 * sc), justifyContent: 'center' }}>
+              <View style={{ width: '52%' }}><PurposeText /></View>
+            </ContentFrame>
           </View>
         ) : (
           <View style={{ backgroundColor: banner.left }}>
@@ -125,10 +146,10 @@ export default function About() {
   );
 }
 
-function WideCard({ icon, title, desc }) {
+function WideCard({ icon, iconImage, title, desc }) {
   return (
-    <View style={{ flex: 1, backgroundColor: '#C2E7F9', borderRadius: 10, padding: 20, flexDirection: 'row', gap: 16, alignItems: 'flex-start' }}>
-      <IconCircle name={icon} size={52} />
+    <View style={{ flex: 1, backgroundColor: '#C2E7F9', borderRadius: 7, padding: 12, flexDirection: 'row', gap: 16, alignItems: 'flex-start', minHeight: 98 }}>
+      <CardIcon name={icon} image={iconImage} size={52} />
       <View style={{ flex: 1 }}>
         <T w="b" size={13}>{title}</T>
         <T w="m" size={11.5} color={COLORS.text} lh={17} style={{ marginTop: 6 }}>{desc}</T>

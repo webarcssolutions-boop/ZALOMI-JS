@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import { COLORS, MAX_WIDTH, useLayout } from '../theme/theme';
 import { T, Icon, Press } from '../theme/ui';
 import { Logo } from './Header';
@@ -8,17 +8,21 @@ import { useRouter } from '../navigation/Router';
 import { CONFIG } from '../config';
 
 const SOCIAL = [
-  ['twitter', 'twitter'], ['facebook', 'facebook'], ['instagram', 'instagram'], ['linkedin', 'linkedin'], ['youtube', 'youtube'],
+  ['twitter', require('../../assets/images/social_twitter.png')],
+  ['facebook', require('../../assets/images/social_facebook.png')],
+  ['instagram', require('../../assets/images/social_instagram.png')],
+  ['linkedin', require('../../assets/images/social_linkedin.png')],
+  ['youtube', require('../../assets/images/social_youtube.png')],
 ];
 
-export function SocialRow({ size = 26, color = '#fff', boxed = false }) {
+export function SocialRow({ size = 26, boxed = false }) {
   const { navigate } = useRouter();
   return (
     <View style={{ flexDirection: 'row', gap: boxed ? 10 : 12 }}>
-      {SOCIAL.map(([key, icon]) => (
+      {SOCIAL.map(([key, source]) => (
         <Press key={key} onPress={() => navigate(CONFIG.social[key])} accessibilityLabel={key}
-          style={boxed ? { width: size + 14, height: size + 14, borderRadius: 8, backgroundColor: COLORS.navy, alignItems: 'center', justifyContent: 'center' } : null}>
-          <Icon name={icon} size={size} color={color} />
+          style={boxed ? { width: size + 14, height: size + 14 } : null}>
+          <Image source={source} style={{ width: boxed ? size + 14 : size, height: boxed ? size + 14 : size }} resizeMode="contain" />
         </Press>
       ))}
     </View>

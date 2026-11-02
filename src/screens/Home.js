@@ -64,15 +64,15 @@ function Tiles() {
   const { isMobile } = useLayout();
   const { navigate } = useRouter();
   const tiles = [
-    { icon: 'school', title: 'Academy', sub: 'Build your skills', to: '/academy' },
-    { icon: 'hand-heart-outline', title: 'Zalomi Care', sub: 'Start your business', to: '/zalomi-care' },
-    { icon: 'head-cog-outline', title: 'Career Labs', sub: 'Discover your path', to: '/career-labs' },
-    { icon: 'web', title: 'Study Abroad', sub: 'Go Global', to: '/study-abroad' },
+    { icon: require('../../assets/images/home_icon_academy.png'), title: 'Academy', sub: 'Build your skills', to: '/academy' },
+    { icon: require('../../assets/images/home_icon_care.png'), title: 'Zalomi Care', sub: 'Start your business', to: '/zalomi-care' },
+    { icon: require('../../assets/images/home_icon_career.png'), title: 'Career Labs', sub: 'Discover your path', to: '/career-labs' },
+    { icon: require('../../assets/images/home_icon_abroad.png'), title: 'Study Abroad', sub: 'Go Global', to: '/study-abroad' },
   ];
   const cards = tiles.map((t) => (
     <Press key={t.title} onPress={() => navigate(t.to)} hoverStyle={{ opacity: 0.9 }}
       style={{ backgroundColor: '#fff', borderRadius: 10, alignItems: 'center', paddingVertical: 22, paddingHorizontal: 10, flex: 1 }}>
-      <IconCircle name={t.icon} size={isMobile ? 54 : 66} />
+      <Image source={t.icon} style={{ width: isMobile ? 54 : 66, height: isMobile ? 54 : 66 }} resizeMode="contain" />
       <T w="b" size={14} style={{ marginTop: 12 }} color="#222">{t.title}</T>
       <T w="m" size={12} color="#222" style={{ marginBottom: 8 }}>{t.sub}</T>
       <Icon name="arrow-right" size={26} />
@@ -122,14 +122,14 @@ function Programs() {
   const { navigate } = useRouter();
   const w = IMG.home_programs_woman;
   const cards = [
-    { img: 'home_card_academy', icon: 'account-school', title: 'Academy', desc: 'Build in -demand skills and industry ready confidence.', tint: '#E0F3FC', btn: '#5BC0EB', to: '/academy' },
-    { img: 'home_card_care', icon: 'hand-heart-outline', title: 'Zalomi Care', desc: 'Guidance for your business journey from learning to launch.', tint: '#FDF3F5', btn: '#E8505B', to: '/zalomi-care' },
-    { img: 'home_card_career', icon: 'head-cog-outline', title: 'Career Labs', desc: 'Discover your skills, explore careers, shape your future.', tint: '#E3F6F1', btn: '#6CCBB0', to: '/career-labs' },
-    { img: 'home_card_abroad', icon: 'web', title: 'Study Abroad', desc: 'Global education opportunities for a brighter tomorrow.', tint: '#DCEFFA', btn: COLORS.navy, to: '/study-abroad' },
+    { img: 'home_card_academy', icon: require('../../assets/images/home_icon_academy.png'), title: 'Academy', desc: 'Build in -demand skills and industry ready confidence.', tint: '#E0F3FC', btn: '#5BC0EB', to: '/academy' },
+    { img: 'home_card_care', icon: require('../../assets/images/home_icon_care.png'), title: 'Zalomi Care', desc: 'Guidance for your business journey from learning to launch.', tint: '#FDF3F5', btn: '#E8505B', to: '/zalomi-care' },
+    { img: 'home_card_career', icon: require('../../assets/images/home_icon_career.png'), title: 'Career Labs', desc: 'Discover your skills, explore careers, shape your future.', tint: '#E3F6F1', btn: '#6CCBB0', to: '/career-labs' },
+    { img: 'home_card_abroad', icon: require('../../assets/images/home_icon_abroad.png'), title: 'Study Abroad', desc: 'Global education opportunities for a brighter tomorrow.', tint: '#DCEFFA', btn: COLORS.navy, to: '/study-abroad' },
   ];
   return (
-    <Section bg="#F7FBFE" vPad={isMobile ? 26 : 28}
-      innerStyle={{ paddingTop: isDesktop ? 0 : 6, paddingBottom: isMobile ? 34 : 50 }}>
+    <Section bg="#F7FBFE" vPad={isMobile ? 16 : 12}
+      innerStyle={{ paddingTop: isDesktop ? 0 : 6, paddingBottom: 0 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 52 }}>
         <View>
           <Eyebrow>OUR PROGRAMS</Eyebrow>
@@ -152,7 +152,7 @@ function Programs() {
                 <Image source={im.src} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
               </View>
               <View style={{ padding: 20, paddingTop: 22, flex: 1 }}>
-                <IconCircle name={c.icon} size={36} iconSize={20} />
+                <Image source={c.icon} style={{ width: 48, height: 48, tintColor: c.btn }} resizeMode="contain" />
                 <T w="b" size={15} color="#222" style={{ marginTop: 14, minHeight: 23 }}>{c.title}</T>
                 <T w="m" size={13} color="#333" lh={19} style={{ marginTop: 6, marginBottom: 18, minHeight: 40 }}>{c.desc}</T>
                 <View style={{ flex: 1 }} />
@@ -173,16 +173,19 @@ function CoursesBand() {
   const { isMobile, isDesktop } = useLayout();
   const { navigate } = useRouter();
   const a = IMG.home_courses;
+  const titleSize = isDesktop ? 36 : isMobile ? 30 : 32;
   return (
-    <Section bg="#fff" vPad={isMobile ? 30 : 44}>
-      <View style={{ flexDirection: isDesktop ? 'row' : 'column', alignItems: 'center', justifyContent: 'space-between', gap: 24, backgroundColor: '#F4FAFE', borderRadius: 10, padding: isMobile ? 20 : 36 }}>
-        <View style={{ flex: isDesktop ? 1 : undefined }}>
+    <Section bg="#F4FAFE" vPad={isMobile ? 12 : 16}>
+      <View style={{ flexDirection: isMobile ? 'column' : 'row', alignItems: 'center', justifyContent: 'space-between', gap: 16, backgroundColor: '#F4FAFE', borderRadius: 10, paddingLeft: isMobile ? 12 : 16, paddingRight: isMobile ? 12 : 0 }}>
+        <View style={{ flex: 1 }}>
           <Eyebrow color="#27A39B">ZALOMI COURSES & PROGRAM</Eyebrow>
-          <T w="xb" size={isMobile ? 30 : 48} lh={isMobile ? 38 : 58}>11 Courses & 5 Program</T>
+          <T w="xb" size={titleSize} lh={Math.round(titleSize * 1.2)}>11 Courses & 5 Program</T>
           <T w="m" size={isMobile ? 15 : 17} color={COLORS.ink} style={{ marginTop: 6 }}>Industry focused courses for a future ready you.</T>
           <Btn label="View All Courses" variant="outlineRed" style={{ marginTop: 20 }} onPress={() => navigate('/courses')} />
         </View>
-        <Image source={a.src} style={{ width: isMobile ? '100%' : 380, aspectRatio: a.w / a.h, borderRadius: 14 }} resizeMode="cover" />
+        <View style={{ width: isMobile ? '100%' : '36%', aspectRatio: a.w / a.h, borderRadius: 18, overflow: 'hidden' }}>
+          <Image source={a.src} style={{ width: '100%', height: '100%' }} resizeMode="contain" />
+        </View>
       </View>
     </Section>
   );
@@ -202,7 +205,7 @@ function AbroadBanner() {
     </View>
   );
   return (
-    <Section bg="#fff" vPad={isMobile ? 10 : 20} innerStyle={{ paddingHorizontal: isMobile ? 0 : pad }}>
+    <Section bg="#fff" vPad={isMobile ? 6 : 8} innerStyle={{ paddingTop: 0, paddingHorizontal: isMobile ? 0 : pad }}>
       {isDesktop ? (
         <View style={{ width: '100%', aspectRatio: a.w / a.h, borderRadius: 10, overflow: 'hidden', backgroundColor: a.left }}>
           <Image source={a.src} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode="cover" />
