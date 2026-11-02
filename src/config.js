@@ -2,8 +2,7 @@
 //  Central site configuration - edit this file, not the screens.
 // ---------------------------------------------------------------
 export const CONFIG = {
-  // Empty uses the current origin (Firebase Hosting rewrites /api/contact).
-  // Set EXPO_PUBLIC_API_URL in .env to use a separate/local API server.
+  // Set EXPO_PUBLIC_API_URL to the base URL of a separately hosted API server.
   apiUrl: process.env.EXPO_PUBLIC_API_URL || '',
 
   // If you already have a student-portal / LMS, put its URL here.
