@@ -45,9 +45,11 @@ function Destinations() {
             {DEST.map((d, i) => {
               const a = IMG[d.img];
               return (
-                <View key={d.name} style={{ width: itemW, marginRight: i < DEST.length - 1 ? gap : 0 }}>
-                  <Image source={a.src} style={{ width: '100%', aspectRatio: 1.05, borderTopLeftRadius: 10, borderTopRightRadius: 10 }} resizeMode="cover" />
-                  <View style={{ backgroundColor: '#fff', paddingVertical: 8, borderBottomLeftRadius: 10, borderBottomRightRadius: 10, alignItems: 'center' }}>
+                <View key={d.name} style={{ width: itemW, marginRight: i < DEST.length - 1 ? gap : 0, borderRadius: 10, overflow: 'hidden' }}>
+                  <View style={{ width: '100%', aspectRatio: 1.05, overflow: 'hidden' }}>
+                    <Image source={a.src} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+                  </View>
+                  <View style={{ height: 42, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' }}>
                     <T w="sb" size={14} style={{ letterSpacing: 3 }}>{d.name}</T>
                   </View>
                 </View>

@@ -10,7 +10,7 @@ export default function Faq() {
   const [open, setOpen] = useState(0);
   return (
     <View>
-      <PageHero img="faq_hero" eyebrow="SUPPORT" title="FAQ" titleSize={56} />
+      <PageHero img="faq_hero" eyebrow="SUPPORT" title="FAQ" titleSize={56} desktopAspectRatio={3.6} />
       <Section bg="#fff" vPad={isMobile ? 30 : 56} innerStyle={{ maxWidth: 1250 }}>
         <T w="b" size={isMobile ? 20 : 26} style={{ marginBottom: 22 }}>Find Answers to Your Questions</T>
         <View style={{ gap: isMobile ? 14 : 30 }}>

@@ -18,7 +18,7 @@ export default function Academy() {
   ];
   return (
     <View>
-      <PageHero img="academy_hero" eyebrow="ACADEMY" title={'Build Skills. Gain Confidence.\nCreate Opportunities.'} titleSize={48} textWidth="52%"
+      <PageHero img="academy_hero" eyebrow="ACADEMY" title={'Build Skills. Gain Confidence.\nCreate Opportunities.'} titleSize={48} textWidth="52%" textOffsetY={-20}
         body="Zalomi Academy offers industry relevant, hands on training programs designed to equip you with practical skills and real world experience. Our goal is to help you become job ready, future ready and confident in your career journey."
         cta="Explore our Courses" onCta={() => navigate('/courses')} />
       <Section bg="#F5F9FC" vPad={isMobile ? 34 : 54}>
@@ -38,15 +38,30 @@ export default function Academy() {
           </Grid>
         </View>
       </Section>
-      <View style={{ flexDirection: isDesktop ? 'row' : 'column', backgroundColor: '#C1E6F9' }}>
-        <Image source={j.src} style={isDesktop ? { width: '55.5%', aspectRatio: j.w / j.h } : { width: '100%', aspectRatio: j.w / j.h }} resizeMode="cover" />
-        <View style={{ flex: 1, justifyContent: 'center', padding: isMobile ? 24 : pad }}>
-          <T w="b" size={isMobile ? 24 : 30} lh={isMobile ? 32 : 40}>Your Learning Journey{'\n'}Starts Here</T>
-          <T w="m" size={isMobile ? 15 : 18} color={COLORS.blue} lh={isMobile ? 24 : 28} style={{ marginTop: 18 }}>
-            At Zalomi Academy, we focus on building practical skills, industry knowledge and confidence - helping you take the next step towards a successful career.
-          </T>
-          <Btn label="View all Courses" style={{ marginTop: 24 }} onPress={() => navigate('/courses')} />
-        </View>
+      <View style={{ backgroundColor: '#C1E6F9' }}>
+        {isDesktop ? (
+          <View style={{ flexDirection: 'row', alignItems: 'stretch' }}>
+            <Image source={j.src} style={{ width: '50%', aspectRatio: j.w / j.h }} resizeMode="cover" />
+            <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 48, paddingVertical: pad }}>
+              <T w="b" size={30} lh={40}>Your Learning Journey{'\n'}Starts Here</T>
+              <T w="m" size={18} color={COLORS.blue} lh={28} style={{ marginTop: 18, maxWidth: 460 }}>
+                At Zalomi Academy, we focus on building practical skills, industry knowledge and confidence - helping you take the next step towards a successful career.
+              </T>
+              <Btn label="View all Courses" style={{ marginTop: 24 }} onPress={() => navigate('/courses')} />
+            </View>
+          </View>
+        ) : (
+          <View>
+            <Image source={j.src} style={{ width: '100%', aspectRatio: j.w / j.h }} resizeMode="cover" />
+            <View style={{ justifyContent: 'center', padding: pad }}>
+              <T w="b" size={isMobile ? 24 : 30} lh={isMobile ? 32 : 40}>Your Learning Journey{'\n'}Starts Here</T>
+              <T w="m" size={isMobile ? 15 : 18} color={COLORS.blue} lh={isMobile ? 24 : 28} style={{ marginTop: 18 }}>
+                At Zalomi Academy, we focus on building practical skills, industry knowledge and confidence - helping you take the next step towards a successful career.
+              </T>
+              <Btn label="View all Courses" style={{ marginTop: 24 }} onPress={() => navigate('/courses')} />
+            </View>
+          </View>
+        )}
       </View>
     </View>
   );

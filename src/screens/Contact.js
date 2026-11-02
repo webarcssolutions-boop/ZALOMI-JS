@@ -55,7 +55,7 @@ export default function Contact() {
 
   return (
     <View>
-      <PageHero img="contact_hero" eyebrow="GET IN TOUCH" title="Contact Us" titleSize={56} textWidth="44%"
+      <PageHero img="contact_hero" eyebrow="GET IN TOUCH" title="Contact Us" titleSize={56} textWidth="44%" desktopAspectRatio={3.6}
         body={"We're here to help you with your\nquestions, guidance and next steps."} bodyColor={COLORS.blue} />
       <Section bg="#fff" vPad={isMobile ? 30 : 56}>
         <View style={{ flexDirection: isDesktop ? 'row' : 'column', gap: isDesktop ? 60 : 30 }}>
@@ -95,7 +95,7 @@ export default function Contact() {
 
         {/* Visit us strip */}
         <View style={{ marginTop: isMobile ? 34 : 56, flexDirection: isDesktop ? 'row' : 'column', alignItems: 'stretch', borderRadius: 6, overflow: 'hidden' }}>
-          <Image source={map.src} style={isDesktop ? { flex: 1.05, aspectRatio: undefined, minHeight: 250 } : { width: '100%', aspectRatio: map.w / map.h }} resizeMode="cover" />
+          <Image source={map.src} style={isDesktop ? { flex: 1.05, height: 380 } : { width: '100%', aspectRatio: map.w / map.h }} resizeMode="cover" />
           <View style={{ flex: isDesktop ? 0.95 : undefined, backgroundColor: '#fff', padding: isMobile ? 22 : 30, justifyContent: 'center' }}>
             <View style={{ width: 44, height: 44, borderRadius: 22, backgroundColor: COLORS.skyCard, alignItems: 'center', justifyContent: 'center' }}>
               <Icon name="map-marker" size={26} color="#0F3C57" />
@@ -104,7 +104,7 @@ export default function Contact() {
             <T w="b" size={isMobile ? 18 : 21} lh={isMobile ? 26 : 29} color="#0F3C57" style={{ marginTop: 8 }}>We'd love to see you{'\n'}at our campus!</T>
             <T w="m" size={12} color="#0F3C57" lh={18} style={{ marginTop: 10 }}>Experience our learning environment, meet our team and explore the opportunities that await you at Zalomi School of Skills.</T>
           </View>
-          <Image source={campus.src} style={isDesktop ? { flex: 1.15, aspectRatio: undefined, minHeight: 250 } : { width: '100%', aspectRatio: campus.w / campus.h }} resizeMode="cover" />
+          <Image source={campus.src} style={isDesktop ? { flex: 1.15, height: 380 } : { width: '100%', aspectRatio: campus.w / campus.h }} resizeMode="cover" />
         </View>
       </Section>
     </View>

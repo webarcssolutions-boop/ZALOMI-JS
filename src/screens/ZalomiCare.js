@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import { COLORS, useLayout } from '../theme/theme';
 import { IMG } from '../theme/images';
-import { T, Btn, Section, Grid } from '../theme/ui';
+import { T, Btn, Section, Grid, ContentFrame } from '../theme/ui';
 import PageHero from '../components/PageHero';
 import { SupportCard } from '../components/cards';
 import { useRouter } from '../navigation/Router';
@@ -13,7 +13,7 @@ function Band({ img, children, side = 'left', width = '46%', minH }) {
   if (!isDesktop) {
     return (
       <View style={{ backgroundColor: a.left }}>
-        <View style={{ padding: 24 }}>{children}</View>
+        <View style={{ paddingHorizontal: pad, paddingVertical: 24 }}>{children}</View>
         <Image source={a.src} style={{ width: '100%', aspectRatio: a.w / a.h }} resizeMode="cover" />
       </View>
     );
@@ -21,7 +21,11 @@ function Band({ img, children, side = 'left', width = '46%', minH }) {
   return (
     <View style={{ width: '100%', aspectRatio: a.w / a.h, backgroundColor: a.left }}>
       <Image source={a.src} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode="cover" />
-      <View style={{ position: 'absolute', left: pad, top: 0, bottom: 0, width, justifyContent: 'center' }}>{children}</View>
+      <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center' }}>
+        <ContentFrame style={{ height: '100%', justifyContent: 'center' }}>
+          <View style={{ width }}>{children}</View>
+        </ContentFrame>
+      </View>
     </View>
   );
 }

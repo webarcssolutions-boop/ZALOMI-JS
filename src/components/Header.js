@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, View, Image, Platform } from 'react-native';
+import { Animated, Easing, View, Image, Platform } from 'react-native';
 import { COLORS, MAX_WIDTH, useLayout } from '../theme/theme';
 import { IMG } from '../theme/images';
 import { T, Icon, Press } from '../theme/ui';
@@ -51,9 +51,9 @@ function DesktopNav() {
     const layout = indicatorItem && itemLayouts[indicatorItem.label];
     if (!layout) return;
     Animated.parallel([
-      Animated.spring(indicatorLeft, { toValue: layout.x, useNativeDriver: false, speed: 20, bounciness: 0 }),
-      Animated.spring(indicatorTop, { toValue: layout.y + layout.height - 2, useNativeDriver: false, speed: 20, bounciness: 0 }),
-      Animated.spring(indicatorWidth, { toValue: layout.width, useNativeDriver: false, speed: 20, bounciness: 0 }),
+      Animated.timing(indicatorLeft, { toValue: layout.x, duration: 180, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
+      Animated.timing(indicatorTop, { toValue: layout.y + layout.height - 2, duration: 180, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
+      Animated.timing(indicatorWidth, { toValue: layout.width, duration: 180, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
     ]).start();
   }, [indicatorItem, itemLayouts, indicatorLeft, indicatorTop, indicatorWidth]);
 

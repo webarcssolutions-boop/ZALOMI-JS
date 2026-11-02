@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import { COLORS, useLayout } from '../theme/theme';
 import { IMG } from '../theme/images';
-import { T, Icon, IconCircle, Btn, Section, Grid } from '../theme/ui';
+import { T, Icon, IconCircle, Btn, Section, Grid, ContentFrame } from '../theme/ui';
 import PageHero from '../components/PageHero';
 import { SupportCard } from '../components/cards';
 import { useRouter } from '../navigation/Router';
@@ -38,10 +38,14 @@ export default function CareerLabs() {
         {isDesktop ? (
           <View style={{ width: '100%', aspectRatio: d.w / d.h, maxHeight: 640 }}>
             <Image source={d.src} style={{ position: 'absolute', right: 0, top: 0, height: '100%', width: '100%' }} resizeMode="cover" />
-            <View style={{ position: 'absolute', left: pad, top: 0, bottom: 0, width: '45%', justifyContent: 'center' }}>{txt}</View>
+            <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center' }}>
+              <ContentFrame style={{ height: '100%', justifyContent: 'center' }}>
+                <View style={{ width: '45%' }}>{txt}</View>
+              </ContentFrame>
+            </View>
           </View>
         ) : (
-          <View><View style={{ padding: 24 }}>{txt}</View><Image source={d.src} style={{ width: '100%', aspectRatio: d.w / d.h }} resizeMode="cover" /></View>
+          <View><View style={{ paddingHorizontal: pad, paddingVertical: 24 }}>{txt}</View><Image source={d.src} style={{ width: '100%', aspectRatio: d.w / d.h }} resizeMode="cover" /></View>
         )}
       </View>
       <Section bg="#EAF6FC" vPad={isMobile ? 28 : 40}>

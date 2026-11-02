@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import { COLORS, useLayout } from '../theme/theme';
 import { IMG } from '../theme/images';
-import { T, Btn } from '../theme/ui';
+import { T, Btn, ContentFrame } from '../theme/ui';
 
 /**
  * Banner used by every inner page. Desktop: text overlaid on the left of the banner image
@@ -10,7 +10,7 @@ import { T, Btn } from '../theme/ui';
  */
 export default function PageHero({
   img, eyebrow, title, titleColor = COLORS.navy, sub, subColor = COLORS.blue, body, bodyColor = COLORS.blue,
-  cta, onCta, ctaVariant = 'outlineOrange', bg, titleSize = 60, textWidth = '46%', children,
+  cta, onCta, ctaVariant = 'outlineOrange', bg, titleSize = 60, textWidth = '46%', textOffsetY = 0, desktopAspectRatio, children,
 }) {
   const a = IMG[img];
   const { isDesktop, isMobile, pad, sc } = useLayout();
@@ -35,9 +35,13 @@ export default function PageHero({
     );
   }
   return (
-    <View style={{ width: '100%', aspectRatio: a.w / a.h, backgroundColor: bg || a.left }}>
+    <View style={{ width: '100%', aspectRatio: desktopAspectRatio || a.w / a.h, backgroundColor: bg || a.left }}>
       <Image source={a.src} style={{ position: 'absolute', left: 0, top: 0, width: '100%', height: '100%' }} resizeMode="cover" />
-      <View style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: textWidth, justifyContent: 'center', paddingLeft: pad }}>{text}</View>
+      <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center' }}>
+        <ContentFrame style={{ height: '100%', justifyContent: 'center' }}>
+          <View style={{ width: textWidth, transform: [{ translateY: textOffsetY }] }}>{text}</View>
+        </ContentFrame>
+      </View>
     </View>
   );
 }

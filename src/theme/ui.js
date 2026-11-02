@@ -33,15 +33,24 @@ export function IconCircle({ name, size = 72, iconSize, color = COLORS.navy, rin
   );
 }
 
+export function ContentFrame({ style, pointerEvents, children }) {
+  const { pad } = useLayout();
+  return (
+    <View pointerEvents={pointerEvents} style={[{ width: '100%', maxWidth: MAX_WIDTH, alignSelf: 'center', paddingHorizontal: pad }, style]}>
+      {children}
+    </View>
+  );
+}
+
 /** Full-bleed background band with a centred, padded inner column */
 export function Section({ bg, style, innerStyle, children, vPad }) {
-  const { pad, isMobile } = useLayout();
+  const { isMobile } = useLayout();
   const v = vPad !== undefined ? vPad : isMobile ? 36 : 56;
   return (
     <View style={[{ width: '100%', backgroundColor: bg }, style]}>
-      <View style={[{ width: '100%', maxWidth: MAX_WIDTH, alignSelf: 'center', paddingHorizontal: pad, paddingVertical: v }, innerStyle]}>
+      <ContentFrame style={[{ paddingVertical: v }, innerStyle]}>
         {children}
-      </View>
+      </ContentFrame>
     </View>
   );
 }

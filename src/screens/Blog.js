@@ -12,7 +12,7 @@ export function Blog() {
   const { navigate } = useRouter();
   return (
     <View>
-      <PageHero img="blog_hero" eyebrow="NEWS, BLOGS, EVENTS" title="News, Blogs & Events" titleSize={52} textWidth="50%" />
+      <PageHero img="blog_hero" eyebrow="NEWS, BLOGS, EVENTS" title="News, Blogs & Events" titleSize={52} textWidth="50%" desktopAspectRatio={3.6} />
       <Section bg="#fff" vPad={isMobile ? 30 : 44}>
         <T w="b" size={isMobile ? 20 : 24}>Insights. Tips. Opportunities.</T>
         <T w="m" size={isMobile ? 14 : 17} color={COLORS.blue} lh={isMobile ? 22 : 26} style={{ marginTop: 8, marginBottom: 24 }}>
@@ -22,10 +22,12 @@ export function Blog() {
           {POSTS.map((p) => {
             const a = IMG[p.img];
             return (
-              <View key={p.slug} style={{ flexDirection: isDesktop ? 'row' : 'column', alignItems: isDesktop ? 'center' : 'stretch', gap: isDesktop ? 22 : 14,
+              <View key={p.slug} style={{ flexDirection: isDesktop ? 'row' : 'column', alignItems: isDesktop ? 'center' : 'stretch', minHeight: isDesktop ? 230 : undefined, gap: isDesktop ? 22 : 14,
                 borderWidth: 1, borderColor: COLORS.border, borderRadius: 8, padding: 8, backgroundColor: '#fff',
                 shadowColor: COLORS.teal, shadowOpacity: 0.18, shadowRadius: 8, shadowOffset: { width: 0, height: 3 }, elevation: 3 }}>
-                <Image source={a.src} style={{ width: isDesktop ? 300 : '100%', aspectRatio: 1.45, borderRadius: 6 }} resizeMode="cover" />
+                <View style={{ width: isDesktop ? 300 : '100%', aspectRatio: 1.45, borderRadius: 6, overflow: 'hidden', flexShrink: 0 }}>
+                  <Image source={a.src} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+                </View>
                 <View style={{ flex: 1, paddingVertical: isMobile ? 6 : 10, paddingHorizontal: isMobile ? 6 : 0 }}>
                   <T w="m" size={12} color={COLORS.teal} style={{ letterSpacing: 1.5 }}>{p.category}</T>
                   <T w="b" size={isMobile ? 18 : 22} lh={isMobile ? 26 : 30} style={{ marginTop: 6 }}>{p.title}</T>

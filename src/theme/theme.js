@@ -33,7 +33,7 @@ export const FONT = {
 };
 
 export const MAX_WIDTH = 1600; // overall site frame
-export const BP = { mobile: 700, desktop: 1024 };
+export const BP = { mobile: 700, desktop: 1400 };
 
 /** Responsive helper: the desktop layout matches the supplied designs;
  *  tablet/mobile re-flow the same content into stacked layouts. */
@@ -44,7 +44,7 @@ export function useLayout() {
   const isDesktop = w >= BP.desktop;
   const isTablet = !isMobile && !isDesktop;
   const pad = isMobile ? 20 : isTablet ? 36 : Math.round(Math.max(48, Math.min(96, width * 0.055)));
-  // font scale so the 1440px design shrinks gracefully on 1024-1440px screens
+  // font scale so the 1440px design shrinks gracefully on desktop screens
   const sc = isDesktop ? Math.min(1, Math.max(0.72, width / 1440)) : 1;
   return { width, rawWidth: w, isMobile, isTablet, isDesktop, pad, sc };
 }

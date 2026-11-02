@@ -2,23 +2,24 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import { COLORS, useLayout } from '../theme/theme';
 import { IMG } from '../theme/images';
-import { T, Icon, IconCircle, Btn, Section, Grid, Press } from '../theme/ui';
+import { T, Icon, IconCircle, Btn, Section, Grid, Press, ContentFrame } from '../theme/ui';
 import { StatsStrip } from '../components/cards';
 import MovingIcons from '../components/MovingIcons';
 import { HOME_NEWS } from '../data/blog';
 import { useRouter } from '../navigation/Router';
 
 const Eyebrow = ({ children, color = COLORS.teal }) => (
-  <T w="m" size={15} color={color} style={{ letterSpacing: 3, marginBottom: 6 }}>{children}</T>
+  <T w="b" size={15} color={color} style={{ letterSpacing: 3, marginBottom: 6 }}>{children}</T>
 );
 
 function Hero() {
-  const { isDesktop, isMobile, pad, sc } = useLayout();
+  const { isDesktop, isMobile, pad, sc, width } = useLayout();
   const { navigate } = useRouter();
   const w = IMG.home_hero_woman;
   const h1 = isDesktop ? Math.round(62 * sc) : isMobile ? 36 : 48;
+  const artHeight = Math.min(isMobile ? 330 : 460, Math.max(220, (width - pad * 2) * 0.78));
   const text = (
-    <View style={{ maxWidth: 560 }}>
+    <View style={{ maxWidth: isDesktop ? 600 : 560 }}>
       <T w="xb" size={h1} lh={Math.round(h1 * 1.2)}>Build Skills.{'\n'}Learn Languages.</T>
       <T w="xb" size={h1} lh={Math.round(h1 * 1.2)} color={COLORS.indigo}>Go Global.</T>
       <T w="m" size={isMobile ? 15 : 18} color="#27A39B" style={{ marginTop: 18, maxWidth: 480 }}>
@@ -34,9 +35,9 @@ function Hero() {
     return (
       <View style={{ backgroundColor: COLORS.mint, overflow: 'hidden' }}>
         <View style={{ paddingHorizontal: pad, paddingTop: 30 }}>{text}</View>
-        <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', marginTop: 10, height: isMobile ? 330 : 460 }}>
-          <Image source={w.src} style={{ height: '100%', aspectRatio: w.w / w.h, maxWidth: '62%' }} resizeMode="contain" />
-          <MovingIcons height={isMobile ? 300 : 420} style={{ marginLeft: -6, marginBottom: 14 }} />
+        <View style={{ flexDirection: 'row', alignItems: 'flex-end', justifyContent: 'center', marginTop: 10, height: artHeight }}>
+          <Image source={w.src} style={{ width: artHeight * w.w / w.h, height: artHeight }} resizeMode="contain" />
+          <MovingIcons height={artHeight * 0.9} style={{ marginLeft: 8, marginBottom: 14 }} />
         </View>
       </View>
     );
@@ -44,15 +45,23 @@ function Hero() {
   const H = Math.round(780 * Math.max(0.78, sc));
   return (
     <View style={{ backgroundColor: COLORS.mint, height: H, overflow: 'hidden' }}>
-      <View style={{ position: 'absolute', left: 0, top: 0, bottom: 0, justifyContent: 'center', paddingLeft: pad, width: '48%' }}>{text}</View>
-      <Image source={w.src} style={{ position: 'absolute', bottom: 0, left: '33%', height: '96%', aspectRatio: w.w / w.h }} resizeMode="contain" />
-      <MovingIcons height={H * 0.9} style={{ position: 'absolute', right: pad * 0.4, top: H * 0.05 }} />
+      <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center' }}>
+        <ContentFrame style={{ height: '100%', justifyContent: 'center' }}>
+          <View style={{ width: '48%' }}>{text}</View>
+        </ContentFrame>
+      </View>
+      <View pointerEvents="box-none" style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center' }}>
+        <ContentFrame pointerEvents="box-none" style={{ height: '100%', paddingHorizontal: 0 }}>
+          <Image pointerEvents="none" source={w.src} style={{ position: 'absolute', bottom: 0, left: '49%', width: H * 0.96 * w.w / w.h, height: H * 0.96 }} resizeMode="contain" />
+          <MovingIcons height={H * 0.9} style={{ position: 'absolute', right: 0, top: H * 0.05 }} />
+        </ContentFrame>
+      </View>
     </View>
   );
 }
 
 function Tiles() {
-  const { isMobile, pad } = useLayout();
+  const { isMobile } = useLayout();
   const { navigate } = useRouter();
   const tiles = [
     { icon: 'school', title: 'Academy', sub: 'Build your skills', to: '/academy' },
@@ -60,19 +69,23 @@ function Tiles() {
     { icon: 'head-cog-outline', title: 'Career Labs', sub: 'Discover your path', to: '/career-labs' },
     { icon: 'web', title: 'Study Abroad', sub: 'Go Global', to: '/study-abroad' },
   ];
+  const cards = tiles.map((t) => (
+    <Press key={t.title} onPress={() => navigate(t.to)} hoverStyle={{ opacity: 0.9 }}
+      style={{ backgroundColor: '#fff', borderRadius: 10, alignItems: 'center', paddingVertical: 22, paddingHorizontal: 10, flex: 1 }}>
+      <IconCircle name={t.icon} size={isMobile ? 54 : 66} />
+      <T w="b" size={14} style={{ marginTop: 12 }} color="#222">{t.title}</T>
+      <T w="m" size={12} color="#222" style={{ marginBottom: 8 }}>{t.sub}</T>
+      <Icon name="arrow-right" size={26} />
+    </Press>
+  ));
   return (
-    <Section bg={COLORS.skyBand} vPad={isMobile ? 28 : 34}>
-      <Grid cols={isMobile ? 2 : 4} gap={isMobile ? 14 : 40}>
-        {tiles.map((t) => (
-          <Press key={t.title} onPress={() => navigate(t.to)} hoverStyle={{ opacity: 0.9 }}
-            style={{ backgroundColor: '#fff', borderRadius: 10, alignItems: 'center', paddingVertical: 22, paddingHorizontal: 10, flex: 1 }}>
-            <IconCircle name={t.icon} size={isMobile ? 54 : 66} />
-            <T w="b" size={14} style={{ marginTop: 12 }} color="#222">{t.title}</T>
-            <T w="m" size={12} color="#222" style={{ marginBottom: 8 }}>{t.sub}</T>
-            <Icon name="arrow-right" size={26} />
-          </Press>
-        ))}
-      </Grid>
+    <Section bg={COLORS.skyBand} vPad={isMobile ? 28 : 34}
+      innerStyle={{ paddingTop: isMobile ? 24 : 28, paddingBottom: 0 }}>
+      {isMobile ? (
+        <Grid cols={2} gap={14}>{cards}</Grid>
+      ) : (
+        <View style={{ flexDirection: 'row', gap: 24 }}>{cards}</View>
+      )}
     </Section>
   );
 }
@@ -83,7 +96,8 @@ function Bridging() {
   const a = IMG.home_bridge;
   const h2 = isDesktop ? Math.round(52 * sc) : isMobile ? 30 : 40;
   return (
-    <Section bg={COLORS.skyBand} vPad={isMobile ? 36 : 70}>
+    <Section bg={COLORS.skyBand} vPad={isMobile ? 24 : 30}
+      innerStyle={{ paddingTop: isDesktop ? 144 : 6, paddingBottom: isDesktop ? 144 : 6 }}>
       <View style={{ flexDirection: isDesktop ? 'row' : 'column', alignItems: 'center', gap: 30 }}>
         <View style={{ flex: isDesktop ? 1 : undefined }}>
           <T w="xb" size={h2} lh={Math.round(h2 * 1.25)}>Bridging the Gap{'\n'}Between Learning</T>
@@ -93,8 +107,10 @@ function Bridging() {
           </T>
           <Btn label="Learn More" variant="filled" style={{ marginTop: 24 }} onPress={() => navigate('/about')} />
         </View>
-        <View style={{ flex: isDesktop ? 1 : undefined, alignItems: isDesktop ? 'flex-end' : 'center', width: isDesktop ? undefined : '100%' }}>
-          <Image source={a.src} style={{ width: isMobile ? 300 : 520, aspectRatio: a.w / a.h }} resizeMode="contain" />
+        <View style={{ flex: isDesktop ? 1 : undefined, alignItems: isDesktop ? 'flex-end' : 'center', width: isDesktop ? undefined : '100%', transform: isDesktop ? [{ translateY: 20 }] : undefined }}>
+          <View style={{ width: isMobile ? 300 : 520, aspectRatio: a.w / a.h }}>
+            <Image source={a.src} style={{ width: '100%', height: '100%' }} resizeMode="contain" />
+          </View>
         </View>
       </View>
     </Section>
@@ -112,17 +128,18 @@ function Programs() {
     { img: 'home_card_abroad', icon: 'web', title: 'Study Abroad', desc: 'Global education opportunities for a brighter tomorrow.', tint: '#DCEFFA', btn: COLORS.navy, to: '/study-abroad' },
   ];
   return (
-    <Section bg="#F7FBFE" vPad={isMobile ? 34 : 50}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 26 }}>
+    <Section bg="#F7FBFE" vPad={isMobile ? 26 : 28}
+      innerStyle={{ paddingTop: isDesktop ? 0 : 6, paddingBottom: isMobile ? 34 : 50 }}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 52 }}>
         <View>
           <Eyebrow>OUR PROGRAMS</Eyebrow>
           <T w="xb" size={isMobile ? 30 : 46} lh={isMobile ? 38 : 56}>Our Programs</T>
           <T w="m" size={isMobile ? 15 : 18} color={COLORS.blue}>Choose your path. Build your future.</T>
         </View>
         {!isMobile ? (
-          <View style={{ width: 170, height: 150, alignItems: 'center', justifyContent: 'flex-end', marginRight: 60 }}>
-            <View style={{ position: 'absolute', bottom: 0, width: 130, height: 130, borderRadius: 65, backgroundColor: '#9FE0D0' }} />
-            <Image source={w.src} style={{ height: 170, aspectRatio: w.w / w.h, marginBottom: 0 }} resizeMode="contain" />
+          <View style={{ width: 190, height: 170, alignItems: 'center', justifyContent: 'flex-end', marginRight: 60, transform: [{ translateY: 20 }] }}>
+            <View style={{ position: 'absolute', bottom: 0, width: 145, height: 145, borderRadius: 73, backgroundColor: '#9FE0D0' }} />
+            <Image source={w.src} style={{ height: 190, aspectRatio: w.w / w.h, marginBottom: 0 }} resizeMode="contain" />
           </View>
         ) : null}
       </View>
@@ -130,12 +147,15 @@ function Programs() {
         {cards.map((c) => {
           const im = IMG[c.img];
           return (
-            <View key={c.title} style={{ flex: 1, borderRadius: 4, overflow: 'hidden', backgroundColor: c.tint }}>
-              <Image source={im.src} style={{ width: '100%', aspectRatio: 1.35 }} resizeMode="cover" />
-              <View style={{ padding: 20, paddingTop: 22 }}>
+            <View key={c.title} style={{ flex: 1, height: '100%', borderRadius: 4, overflow: 'hidden', backgroundColor: c.tint }}>
+              <View style={{ width: '100%', aspectRatio: 1.35, overflow: 'hidden' }}>
+                <Image source={im.src} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+              </View>
+              <View style={{ padding: 20, paddingTop: 22, flex: 1 }}>
                 <IconCircle name={c.icon} size={36} iconSize={20} />
-                <T w="b" size={15} color="#222" style={{ marginTop: 14 }}>{c.title}</T>
-                <T w="m" size={13} color="#333" lh={19} style={{ marginTop: 6, marginBottom: 18, minHeight: isDesktop ? 40 : undefined }}>{c.desc}</T>
+                <T w="b" size={15} color="#222" style={{ marginTop: 14, minHeight: 23 }}>{c.title}</T>
+                <T w="m" size={13} color="#333" lh={19} style={{ marginTop: 6, marginBottom: 18, minHeight: 40 }}>{c.desc}</T>
+                <View style={{ flex: 1 }} />
                 <Press onPress={() => navigate(c.to)} style={{ alignSelf: 'flex-start', flexDirection: 'row', gap: 6, alignItems: 'center', borderWidth: 1, borderColor: c.btn, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 5 }}>
                   <T w="sb" size={10.5} color={c.btn === COLORS.navy ? COLORS.navy : c.btn}>Learn More</T>
                   <Icon name="arrow-right" size={13} color={c.btn} />
@@ -182,7 +202,7 @@ function AbroadBanner() {
     </View>
   );
   return (
-    <Section bg="#fff" vPad={isMobile ? 10 : 20} innerStyle={{ paddingHorizontal: isMobile ? 0 : pad * 0.9 }}>
+    <Section bg="#fff" vPad={isMobile ? 10 : 20} innerStyle={{ paddingHorizontal: isMobile ? 0 : pad }}>
       {isDesktop ? (
         <View style={{ width: '100%', aspectRatio: a.w / a.h, borderRadius: 10, overflow: 'hidden', backgroundColor: a.left }}>
           <Image source={a.src} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode="cover" />
@@ -190,7 +210,7 @@ function AbroadBanner() {
         </View>
       ) : (
         <View style={{ backgroundColor: a.left }}>
-          <View style={{ padding: 24 }}>{textBlock}</View>
+          <View style={{ paddingHorizontal: isMobile ? pad : 0, paddingVertical: 24 }}>{textBlock}</View>
           <Image source={a.src} style={{ width: '100%', aspectRatio: a.w / a.h }} resizeMode="cover" />
         </View>
       )}
@@ -205,18 +225,21 @@ function News() {
     <Section bg="#F7FBFE" vPad={isMobile ? 34 : 56}>
       <T w="xb" size={isMobile ? 26 : 38} lh={isMobile ? 34 : 48}>Latest News, Blogs & Events</T>
       <View style={{ width: 150, height: 3, backgroundColor: '#B23A48', marginTop: 2, marginBottom: 6 }} />
-      <T w="m" size={isMobile ? 14 : 16} color="#27A39B" style={{ marginBottom: 26 }}>Stay updated with our latest news, events, and opportunities</T>
+      <T w="b" size={isMobile ? 14 : 16} color="#27A39B" style={{ marginBottom: 26 }}>Stay updated with our latest news, events, and opportunities</T>
       <Grid cols={isMobile ? 1 : isTablet ? 2 : 3} gap={isMobile ? 18 : 40}>
         {HOME_NEWS.map((n) => (
-          <View key={n.slug} style={{ flex: 1, backgroundColor: '#fff', borderRadius: 8, overflow: 'hidden', shadowColor: '#0B2B4A', shadowOpacity: 0.08, shadowRadius: 14, shadowOffset: { width: 0, height: 6 }, elevation: 3 }}>
-            <Image source={IMG[n.img].src} style={{ width: '100%', aspectRatio: 1.6 }} resizeMode="cover" />
-            <View style={{ padding: 20 }}>
+          <View key={n.slug} style={{ flex: 1, height: '100%', backgroundColor: '#fff', borderRadius: 8, overflow: 'hidden', shadowColor: '#0B2B4A', shadowOpacity: 0.08, shadowRadius: 14, shadowOffset: { width: 0, height: 6 }, elevation: 3 }}>
+            <View style={{ width: '100%', aspectRatio: 1.6, overflow: 'hidden' }}>
+              <Image source={IMG[n.img].src} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+            </View>
+            <View style={{ padding: 20, flex: 1 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 10 }}>
                 <Icon name="calendar-month-outline" size={16} color={COLORS.teal} />
                 <T w="m" size={10.5} color={COLORS.ink}>{n.date}</T>
               </View>
-              <T w="b" size={17} lh={23}>{n.title}</T>
-              <T w="m" size={12.5} color={COLORS.text} lh={19} style={{ marginTop: 8, marginBottom: 16 }}>{n.summary}</T>
+              <T w="b" size={17} lh={23} style={{ minHeight: 46 }}>{n.title}</T>
+              <T w="m" size={12.5} color={COLORS.text} lh={19} style={{ marginTop: 8, marginBottom: 16, minHeight: 76 }}>{n.summary}</T>
+              <View style={{ flex: 1 }} />
               <Press onPress={() => navigate('/blog/' + n.slug)} style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
                 <T w="sb" size={11} color={COLORS.navy}>Read More</T>
                 <Icon name="arrow-right" size={14} />
@@ -245,14 +268,18 @@ function CtaBanner() {
     return (
       <View style={{ backgroundColor: '#286383' }}>
         <Image source={a.src} style={{ width: '100%', aspectRatio: a.w / a.h }} resizeMode="cover" />
-        <View style={{ padding: 24 }}>{textBlock}</View>
+        <View style={{ paddingHorizontal: pad, paddingVertical: 24 }}>{textBlock}</View>
       </View>
     );
   }
   return (
     <View style={{ width: '100%', aspectRatio: a.w / a.h, backgroundColor: '#286383' }}>
       <Image source={a.src} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode="cover" />
-      <View style={{ position: 'absolute', right: pad * 1.2, top: 0, bottom: 0, justifyContent: 'center' }}>{textBlock}</View>
+      <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center' }}>
+        <ContentFrame style={{ height: '100%', alignItems: 'flex-end', justifyContent: 'center' }}>
+          {textBlock}
+        </ContentFrame>
+      </View>
     </View>
   );
 }

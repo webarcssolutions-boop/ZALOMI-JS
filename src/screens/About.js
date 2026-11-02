@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image } from 'react-native';
 import { COLORS, useLayout } from '../theme/theme';
 import { IMG } from '../theme/images';
-import { T, Icon, IconCircle, Btn, Section, Grid } from '../theme/ui';
+import { T, Icon, IconCircle, Btn, Section, Grid, ContentFrame } from '../theme/ui';
 import { StatsStrip } from '../components/cards';
 import { useRouter } from '../navigation/Router';
 
@@ -29,20 +29,37 @@ export default function About() {
     <View>
       {/* Top strip */}
       <View style={{ backgroundColor: '#BDE5F8' }}>
-        <View style={{ flexDirection: isDesktop ? 'row' : 'column', alignItems: isDesktop ? 'stretch' : 'flex-start' }}>
-          <View style={{ flex: isDesktop ? 1 : undefined, justifyContent: 'center', paddingHorizontal: pad, paddingVertical: isMobile ? 26 : 40 }}>
-            <T w="xb" size={isMobile ? 34 : Math.round(54 * sc)}>About Us</T>
-            <T w="m" size={isMobile ? 15 : 20} color={COLORS.teal} lh={isMobile ? 22 : 28} style={{ marginTop: 10 }}>
-              Empowering learners. Building careers.{'\n'}Creating global opportunities.
-            </T>
-            <Icon name="arrow-right" size={24} color={COLORS.navy} style={{ marginTop: 14 }} />
+        {isDesktop ? (
+          <View style={{ width: '100%', height: 400, overflow: 'hidden' }}>
+            <View style={{ position: 'absolute', top: 0, right: 0, height: '100%', aspectRatio: campus.w / campus.h }}>
+              <Image source={campus.src} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
+            </View>
+            <ContentFrame style={{ height: '100%', justifyContent: 'center' }}>
+              <View style={{ width: '52%' }}>
+                <T w="xb" size={Math.round(54 * sc)}>About Us</T>
+                <T w="m" size={20} color={COLORS.teal} lh={28} style={{ marginTop: 10 }}>
+                  Empowering learners. Building careers.{'\n'}Creating global opportunities.
+                </T>
+                <Icon name="arrow-right" size={24} color={COLORS.navy} style={{ marginTop: 14 }} />
+              </View>
+            </ContentFrame>
           </View>
-          <Image source={campus.src} style={isDesktop ? { width: '38%', aspectRatio: campus.w / campus.h } : { width: '100%', aspectRatio: campus.w / campus.h }} resizeMode="cover" />
-        </View>
+        ) : (
+          <ContentFrame style={{ flexDirection: 'column', alignItems: 'flex-start', paddingHorizontal: 0, paddingVertical: 0 }}>
+            <View style={{ paddingHorizontal: pad, paddingVertical: isMobile ? 26 : 40 }}>
+              <T w="xb" size={isMobile ? 34 : Math.round(54 * sc)}>About Us</T>
+              <T w="m" size={isMobile ? 15 : 20} color={COLORS.teal} lh={isMobile ? 22 : 28} style={{ marginTop: 10 }}>
+                Empowering learners. Building careers.{'\n'}Creating global opportunities.
+              </T>
+              <Icon name="arrow-right" size={24} color={COLORS.navy} style={{ marginTop: 14 }} />
+            </View>
+            <Image source={campus.src} style={{ width: '100%', aspectRatio: campus.w / campus.h }} resizeMode="cover" />
+          </ContentFrame>
+        )}
       </View>
 
       {/* Mission */}
-      <Section bg="#F6F9FC" vPad={isMobile ? 30 : 50}>
+      <Section bg="#F6F9FC" vPad={isMobile ? 24 : 30}>
         <View style={{ flexDirection: isDesktop ? 'row' : 'column', gap: 36, alignItems: 'center' }}>
           <View style={{ flex: isDesktop ? 1 : undefined }}>
             <T w="xb" size={isMobile ? 24 : 30} style={{ marginBottom: 14 }}>Our Mission</T>
@@ -54,14 +71,16 @@ export default function About() {
             </T>
           </View>
           <View style={{ flex: isDesktop ? 1 : undefined, width: isDesktop ? undefined : '100%' }}>
-            <Image source={path.src} style={{ width: '100%', aspectRatio: path.w / path.h }} resizeMode="contain" />
+            <View style={{ width: '100%', aspectRatio: path.w / path.h }}>
+              <Image source={path.src} style={{ width: '100%', height: '100%' }} resizeMode="contain" />
+            </View>
           </View>
         </View>
         <View style={{ marginTop: isMobile ? 20 : 10 }}><StatsStrip /></View>
       </Section>
 
       {/* Competence */}
-      <Section bg="#F6F9FC" vPad={isMobile ? 16 : 24}>
+      <Section bg="#F6F9FC" vPad={isMobile ? 16 : 12}>
         <H3>Crafting Competence Through Practical Mastery</H3>
         <Grid cols={isMobile ? 1 : isTablet ? 2 : 4} gap={22}>
           <MiniCard icon="cog-outline" title="Technical & Vocational Mastery" desc="Hands on training in computer and smartphone servicing and specialized technical disciplines." h={170} />
@@ -89,13 +108,15 @@ export default function About() {
         {isDesktop ? (
           <View style={{ width: '100%', aspectRatio: banner.w / banner.h, backgroundColor: banner.left }}>
             <Image source={banner.src} style={{ position: 'absolute', width: '100%', height: '100%' }} resizeMode="cover" />
-            <View style={{ position: 'absolute', left: pad, top: 0, bottom: 0, width: '52%', justifyContent: 'center' }}>
-              <PurposeText />
+            <View style={{ position: 'absolute', left: 0, right: 0, top: 0, bottom: 0, alignItems: 'center' }}>
+              <ContentFrame style={{ height: '100%', justifyContent: 'center' }}>
+                <View style={{ width: '52%' }}><PurposeText /></View>
+              </ContentFrame>
             </View>
           </View>
         ) : (
           <View style={{ backgroundColor: banner.left }}>
-            <View style={{ padding: 24 }}><PurposeText /></View>
+            <View style={{ paddingHorizontal: pad, paddingVertical: 24 }}><PurposeText /></View>
             <Image source={banner.src} style={{ width: '100%', aspectRatio: banner.w / banner.h }} resizeMode="cover" />
           </View>
         )}
@@ -117,13 +138,13 @@ function WideCard({ icon, title, desc }) {
 }
 
 function PurposeText() {
-  const { isMobile, sc } = useLayout();
+  const { isMobile, isDesktop, width, sc } = useLayout();
   const { navigate } = useRouter();
-  const s = isMobile ? 32 : Math.round(56 * sc);
+  const s = isMobile ? 32 : isDesktop ? Math.round(56 * sc) : Math.min(42, Math.round(width * 0.04));
   return (
-    <View>
+    <View style={{ width: '100%', maxWidth: 560 }}>
       <T w="xb" size={s} lh={Math.round(s * 1.12)} color="#fff">Your Potential.{'\n'}Our Purpose.</T>
-      <T w="m" size={isMobile ? 13 : 13} color="#fff" lh={20} style={{ marginTop: 12, maxWidth: 560 }}>
+      <T w="m" size={13} color="#fff" lh={20} style={{ marginTop: 12, width: '100%' }}>
         At Zalomi School of Skills, our goal is to make purposeful, high value education accessible to all. We are dedicated to nurturing an environment where every learner can discover their true potential, master marketable skills, and step into the future with absolute clarity, confidence and vision.
       </T>
       <Btn label="Explore our programs" variant="outlineOrange" size="sm" style={{ marginTop: 14 }} onPress={() => navigate('/courses')} />
