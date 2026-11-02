@@ -38,9 +38,12 @@ function DesktopNav() {
   const [open, setOpen] = useState(null);
   const [hoveredItem, setHoveredItem] = useState(null);
   const [itemLayouts, setItemLayouts] = useState({});
+  const navRef = useRef(null);
+  const itemRefs = useRef({});
   const indicatorLeft = useRef(new Animated.Value(0)).current;
   const indicatorTop = useRef(new Animated.Value(0)).current;
   const indicatorWidth = useRef(new Animated.Value(0)).current;
+  const indicatorAnimation = useRef(null);
   const gap = Math.round(36 * sc);
   const size = Math.max(13, Math.round(15 * sc));
   const goPortal = () => (CONFIG.portalUrl ? navigate(CONFIG.portalUrl) : navigate('/student-portal'));
@@ -48,32 +51,48 @@ function DesktopNav() {
   const indicatorItem = hoveredItem ? NAV.find((item) => item.label === hoveredItem) : activeItem;
 
   useEffect(() => {
+    setHoveredItem(null);
+    setOpen(null);
+  }, [route.path]);
+
+  useEffect(() => {
     const layout = indicatorItem && itemLayouts[indicatorItem.label];
     if (!layout) return;
-    Animated.parallel([
+    indicatorAnimation.current?.stop();
+    const animation = Animated.parallel([
       Animated.timing(indicatorLeft, { toValue: layout.x, duration: 180, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
       Animated.timing(indicatorTop, { toValue: layout.y + layout.height - 2, duration: 180, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
       Animated.timing(indicatorWidth, { toValue: layout.width, duration: 180, easing: Easing.out(Easing.cubic), useNativeDriver: false }),
-    ]).start();
+    ]);
+    indicatorAnimation.current = animation;
+    animation.start();
+    return () => animation.stop();
   }, [indicatorItem, itemLayouts, indicatorLeft, indicatorTop, indicatorWidth]);
+
+  const measureItem = (label) => {
+    const item = itemRefs.current[label];
+    if (!item || !navRef.current) return;
+    item.measureLayout(navRef.current, (x, y, width, height) => {
+      setItemLayouts((current) => {
+        const previous = current[label];
+        if (previous && previous.x === x && previous.y === y && previous.width === width && previous.height === height) return current;
+        return { ...current, [label]: { x, y, width, height } };
+      });
+    });
+  };
 
   return (
     <View
+      ref={navRef}
       style={{ flexDirection: 'row', alignItems: 'center', gap, position: 'relative' }}
       onPointerLeave={Platform.OS === 'web' ? () => setHoveredItem(null) : undefined}
+      onLayout={() => NAV.forEach((item) => measureItem(item.label))}
     >
       {NAV.map((item) => {
         const hasKids = !!item.children;
         return (
-          <View key={item.label} style={{ position: 'relative' }}
-            onLayout={(event) => {
-              const { x, y, width, height } = event.nativeEvent.layout;
-              setItemLayouts((current) => {
-                const previous = current[item.label];
-                if (previous && previous.x === x && previous.y === y && previous.width === width && previous.height === height) return current;
-                return { ...current, [item.label]: { x, y, width, height } };
-              });
-            }}
+          <View key={item.label} ref={(ref) => { itemRefs.current[item.label] = ref; }} style={{ position: 'relative' }}
+            onLayout={() => measureItem(item.label)}
             onPointerEnter={Platform.OS === 'web' ? () => {
               setHoveredItem(item.label);
               if (hasKids) setOpen(item.label);

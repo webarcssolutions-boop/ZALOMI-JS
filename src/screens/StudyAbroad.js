@@ -68,11 +68,11 @@ export default function StudyAbroad() {
   const { navigate } = useRouter();
   const j = IMG.abroad_journey;
   const sup = [
-    { icon: 'school', title: 'University Selection', desc: 'Find the right university and course for your goals.' },
-    { icon: 'file-document-edit-outline', title: 'Application Support', desc: 'Guidance with applications, documents and interviews.' },
-    { icon: 'passport', title: 'Visa Guidance', desc: 'Step by step support for your student visa.' },
-    { icon: 'airplane', title: 'Accommodation & Travel', desc: 'Safe stay, easy travel, peace of mind.' },
-    { icon: 'shield-heart-outline', title: 'Pre Departure Support', desc: 'Orientation, travel tips and ongoing assistance.' },
+    { iconImage: require('../../assets/images/abroad_support_university.png'), title: 'University Selection', desc: 'Find the right university and course for your goals.' },
+    { iconImage: require('../../assets/images/abroad_support_application.png'), title: 'Application Support', desc: 'Guidance with applications, documents and interviews.' },
+    { iconImage: require('../../assets/images/abroad_support_visa.png'), title: 'Visa Guidance', desc: 'Step by step support for your student visa.' },
+    { iconImage: require('../../assets/images/abroad_support_travel.png'), title: 'Accommodation & Travel', desc: 'Safe stay, easy travel, peace of mind.' },
+    { iconImage: require('../../assets/images/abroad_support_departure.png'), title: 'Pre Departure Support', desc: 'Orientation, travel tips and ongoing assistance.' },
   ];
   return (
     <View>

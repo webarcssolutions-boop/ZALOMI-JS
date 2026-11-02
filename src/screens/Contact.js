@@ -69,9 +69,9 @@ export default function Contact() {
             <Row icon="whatsapp"><T w="b" size={isMobile ? 15 : 17} color="#0F3C57">{c.whatsapp}</T></Row>
             <Row icon="map-marker-outline"><T w="b" size={isMobile ? 15 : 17} color="#0F3C57" lh={26}>{c.address.join('\n')}</T></Row>
             <T w="b" size={14} color="#0F3C57" style={{ marginTop: 6, marginBottom: 8 }}>Follow Us</T>
-            <SocialRow boxed size={22} />
+            <SocialRow boxed size={30} />
           </View>
-          <View style={{ flex: isDesktop ? 1.1 : undefined, backgroundColor: '#D6F0FA', borderRadius: 24, padding: isMobile ? 20 : 32 }}>
+          <View style={{ flex: isDesktop ? 1.1 : undefined, backgroundColor: '#D6F0FA', borderRadius: 24, padding: isMobile ? 20 : 32, paddingBottom: isMobile ? 36 : 48 }}>
             <T w="b" size={isMobile ? 20 : 24} color="#0F3C57">Send Us a Message</T>
             <T w="m" size={13} color="#0F3C57" lh={19} style={{ marginTop: 6, marginBottom: 22 }}>Fill in the form below and our team will get back to you as soon as possible.</T>
             <View style={{ flexDirection: isMobile ? 'column' : 'row', gap: 16, marginBottom: 16 }}>

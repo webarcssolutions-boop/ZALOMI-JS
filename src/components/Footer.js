@@ -18,11 +18,11 @@ const SOCIAL = [
 export function SocialRow({ size = 26, boxed = false }) {
   const { navigate } = useRouter();
   return (
-    <View style={{ flexDirection: 'row', gap: boxed ? 10 : 12 }}>
+    <View style={{ flexDirection: 'row', gap: boxed ? 16 : 12 }}>
       {SOCIAL.map(([key, source]) => (
         <Press key={key} onPress={() => navigate(CONFIG.social[key])} accessibilityLabel={key}
-          style={boxed ? { width: size + 14, height: size + 14 } : null}>
-          <Image source={source} style={{ width: boxed ? size + 14 : size, height: boxed ? size + 14 : size }} resizeMode="contain" />
+          style={boxed ? { width: size + 14, height: size + 14, borderRadius: 10, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' } : null}>
+          <Image source={source} style={{ width: boxed ? size + 14 : size, height: boxed ? size + 14 : size, tintColor: boxed ? COLORS.navy : undefined }} resizeMode="contain" />
         </Press>
       ))}
     </View>

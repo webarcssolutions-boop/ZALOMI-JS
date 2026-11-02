@@ -57,8 +57,8 @@ export default function Admission() {
           Reserve your seat by paying the registration fee online. Our admissions team will contact you to complete the process.
         </T>
       </Section>
-      <Section bg="#fff" vPad={isMobile ? 28 : 52}>
-        <View style={{ flexDirection: isDesktop ? 'row' : 'column', gap: 36 }}>
+      <Section bg="#fff" vPad={isMobile ? 28 : 72} innerStyle={{ paddingBottom: 240 }}>
+        <View style={{ flexDirection: isDesktop ? 'row' : 'column', alignItems: isDesktop ? 'center' : undefined, gap: 36 }}>
           <View style={{ flex: 1.4, backgroundColor: '#D6F0FA', borderRadius: 24, padding: isMobile ? 20 : 32, zIndex: 5 }}>
             <T w="b" size={22} color="#0F3C57" style={{ marginBottom: 20 }}>Your details</T>
             <Field label="Full Name*" value={f.name} onChangeText={set('name')} error={err.name} style={{ marginBottom: 16 }} />

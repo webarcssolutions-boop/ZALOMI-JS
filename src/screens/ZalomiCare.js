@@ -34,11 +34,11 @@ export default function ZalomiCare() {
   const { isMobile, isTablet, sc } = useLayout();
   const { navigate } = useRouter();
   const sup = [
-    { icon: 'account-voice', title: 'Business Planning', desc: 'Turn your ideas into structured plans with guidance and expert advice.' },
-    { icon: 'monitor-account', title: 'Mentorship', desc: 'Learn from industry experts and successful entrepreneurs.' },
-    { icon: 'currency-inr', title: 'Funding Guidance', desc: 'Get support in exploring funding and investment opportunities.' },
-    { icon: 'vector-triangle', title: 'Networking', desc: 'Connect with a growing community of alumni, mentors and industry professionals.' },
-    { icon: 'chart-bar', title: 'Career Support', desc: 'Access job opportunities, placement assistance and career counselling.' },
+    { iconImage: require('../../assets/images/care_support_business.png'), title: 'Business Planning', desc: 'Turn your ideas into structured plans with guidance and expert advice.' },
+    { iconImage: require('../../assets/images/care_support_mentorship.png'), title: 'Mentorship', desc: 'Learn from industry experts and successful entrepreneurs.' },
+    { iconImage: require('../../assets/images/care_support_funding.png'), title: 'Funding Guidance', desc: 'Get support in exploring funding and investment opportunities.' },
+    { iconImage: require('../../assets/images/care_support_networking.png'), title: 'Networking', desc: 'Connect with a growing community of alumni, mentors and industry professionals.' },
+    { iconImage: require('../../assets/images/care_support_career.png'), title: 'Career Support', desc: 'Access job opportunities, placement assistance and career counselling.' },
   ];
   const h2 = isMobile ? 24 : Math.round(30 * sc);
   return (
