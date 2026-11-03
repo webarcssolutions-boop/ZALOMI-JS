@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, Platform, ScrollView } from 'react-native';
-import { COLORS, FONT } from '../theme/theme';
+import { COLORS, FONT, TYPOGRAPHY_SCALE } from '../theme/theme';
 import { T, Icon, Press } from '../theme/ui';
 
 /** Input with the label printed inside the box (as in the Contact design) */
@@ -16,7 +16,7 @@ export function Field({ label, value, onChangeText, multiline, keyboardType, aut
           keyboardType={keyboardType}
           autoCapitalize={autoCapitalize}
           secureTextEntry={secure}
-          style={[{ fontFamily: FONT.m, fontSize: 15, color: COLORS.ink, paddingVertical: 4, minHeight: multiline ? (minH || 90) - 36 : 26, textAlignVertical: multiline ? 'top' : 'center' }, Platform.OS === 'web' ? { outlineStyle: 'none' } : null]}
+          style={[{ fontFamily: FONT.m, fontSize: 15 * TYPOGRAPHY_SCALE, color: COLORS.ink, paddingVertical: 4, minHeight: multiline ? (minH || 90) - 36 : 26, textAlignVertical: multiline ? 'top' : 'center' }, Platform.OS === 'web' ? { outlineStyle: 'none' } : null]}
         />
       </View>
       {error ? <T w="m" size={11.5} color={COLORS.red} style={{ marginTop: 4 }}>{error}</T> : null}

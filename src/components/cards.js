@@ -5,15 +5,15 @@ import { IMG } from '../theme/images';
 import { T, Icon, IconCircle, Btn, Press } from '../theme/ui';
 
 /** Light-blue card with icon in a circle, bold title and short text (support / what-you-get cards) */
-export function SupportCard({ icon, iconImage, title, desc, bg = COLORS.skyCard, align = 'center', minH, iconSize = 64 }) {
+export function SupportCard({ icon, iconImage, title, desc, bg = COLORS.skyCard, align = 'center', minH, iconSize = 64, textScale = 1 }) {
   const { isMobile } = useLayout();
   return (
     <View style={{ backgroundColor: bg, borderRadius: 10, paddingHorizontal: 18, paddingVertical: 24, alignItems: align === 'center' ? 'center' : 'flex-start', minHeight: minH, flex: 1 }}>
       {iconImage
         ? <Image source={iconImage} style={{ width: iconSize, height: iconSize }} resizeMode="contain" />
         : <IconCircle name={icon} size={iconSize} />}
-      <T w="b" size={isMobile ? 17 : 18} align={align} lh={24} style={{ marginTop: 14 }}>{title}</T>
-      <T w="m" size={12.5} align={align} color={COLORS.text} lh={18} style={{ marginTop: 8 }}>{desc}</T>
+      <T w="b" size={(isMobile ? 17 : 18) * textScale} align={align} lh={24 * textScale} style={{ marginTop: 14 }}>{title}</T>
+      <T w="m" size={12.5 * textScale} align={align} color={COLORS.text} lh={18 * textScale} style={{ marginTop: 8 }}>{desc}</T>
     </View>
   );
 }
@@ -82,7 +82,7 @@ function AnimatedOpportunityIcon({ size, color, active }) {
 }
 
 /** Four-up stats strip (11 Courses | 1000+ | 100% | infinity) */
-export function StatsStrip({ onDark }) {
+export function StatsStrip({ onDark, iconScale = 1 }) {
   const { isMobile } = useLayout();
   const [active, setActive] = useState(false);
   const containerRef = useRef(null);
@@ -121,8 +121,8 @@ export function StatsStrip({ onDark }) {
       {items.map((it, i) => (
         <View key={i} style={{ width: isMobile ? '50%' : '25%', alignItems: 'center', paddingVertical: isMobile ? 16 : 6,
           borderLeftWidth: !isMobile && i > 0 ? 2 : 0, borderColor: '#29B6E8' }}>
-          <Image source={it.source} style={{ width: isMobile ? 40 : 54, height: isMobile ? 40 : 54, tintColor: '#29B6E8' }} resizeMode="contain" />
-          {it.iconBig ? <AnimatedOpportunityIcon size={isMobile ? 40 : 54} color={col} active={active} /> : <StatCounter target={it.target} suffix={it.suffix} size={isMobile ? 32 : 46} lineHeight={isMobile ? 40 : 56} color={col} active={active} />}
+          <Image source={it.source} style={{ width: (isMobile ? 40 : 54) * iconScale, height: (isMobile ? 40 : 54) * iconScale, tintColor: '#29B6E8' }} resizeMode="contain" />
+          {it.iconBig ? <AnimatedOpportunityIcon size={(isMobile ? 40 : 54) * iconScale} color={col} active={active} /> : <StatCounter target={it.target} suffix={it.suffix} size={isMobile ? 32 : 46} lineHeight={isMobile ? 40 : 56} color={col} active={active} />}
           <T w="m" size={isMobile ? 13 : 16} color={col}>{it.label}</T>
         </View>
       ))}

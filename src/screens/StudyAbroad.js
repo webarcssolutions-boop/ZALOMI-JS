@@ -33,8 +33,8 @@ function Destinations() {
   );
   return (
     <View style={{ backgroundColor: '#D6EEF9', borderRadius: 12, padding: isMobile ? 18 : 28 }}>
-      <T w="b" size={isMobile ? 22 : 28}>Top Destinations</T>
-      <T w="m" size={isMobile ? 14 : 17} color={COLORS.blue} lh={isMobile ? 22 : 26} style={{ marginTop: 8, marginBottom: 18 }}>
+      <T w="b" size={isMobile ? 24 : 32}>Top Destinations</T>
+      <T w="m" size={isMobile ? 16 : 19} color={COLORS.blue} lh={isMobile ? 24 : 29} style={{ marginTop: 8, marginBottom: 18 }}>
         Study in leading countries with world class education, cutting edge facilities and global exposure.
       </T>
       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
@@ -50,7 +50,7 @@ function Destinations() {
                     <Image source={a.src} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                   </View>
                   <View style={{ height: 42, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' }}>
-                    <T w="sb" size={14} style={{ letterSpacing: 3 }}>{d.name}</T>
+                    <T w="sb" size={16} style={{ letterSpacing: 3 }}>{d.name}</T>
                   </View>
                 </View>
               );
@@ -76,23 +76,23 @@ export default function StudyAbroad() {
   ];
   return (
     <View>
-      <PageHero img="abroad_hero" eyebrow="STUDY ABROAD" title="Study Abroad" titleSize={56} textWidth="44%"
+      <PageHero img="abroad_hero" eyebrow="STUDY ABROAD" title="Study Abroad" titleSize={56} textScale={1.1} textWidth="44%"
         body={'Explore world class universities, gain International exposure and build a global career with Zalomi Edulab.'} bodyColor={COLORS.blue}
         cta="Explore Your Options" onCta={() => navigate('/admission')} />
       <Section bg="#fff" vPad={isMobile ? 28 : 40}>
         <View style={{ flexDirection: isDesktop ? 'row' : 'column', alignItems: 'center', gap: 32 }}>
           <View style={{ flex: isDesktop ? 1 : undefined }}>
-            <T w="xb" size={isMobile ? 24 : 28} lh={isMobile ? 32 : 36}>Your Global Education{'\n'}Journey Begins Here</T>
-            <T w="m" size={isMobile ? 14 : 16} color={COLORS.blue} lh={isMobile ? 23 : 25} style={{ marginTop: 18, maxWidth: 560 }}>
+            <T w="xb" size={isMobile ? 28 : 32} lh={isMobile ? 36 : 40}>Your Global Education{'\n'}Journey Begins Here</T>
+            <T w="m" size={isMobile ? 16 : 18} color={COLORS.blue} lh={isMobile ? 25 : 28} style={{ marginTop: 18, maxWidth: 560 }}>
               Gain an internationally recognized degree, experience diverse cultures, and unlock global career opportunities. Zalomi Edulab provides end to end support from university selection to visa, travel and accommodation, making your study abroad journey smooth and stress free.
             </T>
             <Btn label="Get Expert Guidance" size="sm" style={{ marginTop: 18 }} onPress={() => navigate('/contact')} />
           </View>
           <Image source={j.src} style={{ width: isDesktop ? '40%' : '100%', aspectRatio: j.w / j.h, borderRadius: 10 }} resizeMode="cover" />
         </View>
-        <T w="xb" size={isMobile ? 22 : 26} style={{ marginTop: 40, marginBottom: 18 }}>Our Support Includes</T>
+        <T w="xb" size={isMobile ? 24 : 30} style={{ marginTop: 40, marginBottom: 18 }}>Our Support Includes</T>
         <Grid cols={isMobile ? 1 : isTablet ? 2 : 5} gap={isMobile ? 14 : 22}>
-          {sup.map((s) => <SupportCard key={s.title} {...s} minH={190} />)}
+          {sup.map((s) => <SupportCard key={s.title} {...s} minH={190} textScale={1.15} />)}
         </Grid>
         <View style={{ marginTop: 34 }}><Destinations /></View>
       </Section>

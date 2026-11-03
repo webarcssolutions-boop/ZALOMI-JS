@@ -84,7 +84,7 @@ export default function About() {
             </View>
           </View>
         </View>
-        <View style={{ marginTop: isMobile ? 20 : 10 }}><StatsStrip /></View>
+        <View style={{ marginTop: isMobile ? 20 : 10 }}><StatsStrip iconScale={1.75} /></View>
       </Section>
 
       {/* Competence */}

@@ -71,7 +71,7 @@ function Tiles() {
   ];
   const cards = tiles.map((t) => (
     <Press key={t.title} onPress={() => navigate(t.to)} hoverStyle={{ opacity: 0.9 }}
-      style={{ backgroundColor: '#fff', borderRadius: 10, alignItems: 'center', paddingVertical: 22, paddingHorizontal: 10, flex: 1 }}>
+      style={{ backgroundColor: '#fff', borderRadius: 10, alignItems: 'center', paddingVertical: 22, paddingHorizontal: 10, flex: isMobile ? 1 : undefined, width: isMobile ? undefined : '19.5%' }}>
       <Image source={t.icon} style={{ width: isMobile ? 54 : 66, height: isMobile ? 54 : 66 }} resizeMode="contain" />
       <T w="b" size={14} style={{ marginTop: 12 }} color="#222">{t.title}</T>
       <T w="m" size={12} color="#222" style={{ marginBottom: 8 }}>{t.sub}</T>
@@ -84,7 +84,7 @@ function Tiles() {
       {isMobile ? (
         <Grid cols={2} gap={14}>{cards}</Grid>
       ) : (
-        <View style={{ flexDirection: 'row', gap: 24 }}>{cards}</View>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>{cards}</View>
       )}
     </Section>
   );
@@ -297,7 +297,7 @@ export default function Home() {
       <Programs />
       <CoursesBand />
       <AbroadBanner />
-      <Section bg="#fff" vPad={isMobile ? 20 : 30}><StatsStrip /></Section>
+      <Section bg="#fff" vPad={isMobile ? 20 : 30}><StatsStrip iconScale={1.75} /></Section>
       <News />
       <CtaBanner />
     </View>

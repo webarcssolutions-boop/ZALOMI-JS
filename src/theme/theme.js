@@ -32,6 +32,8 @@ export const FONT = {
   xb: 'Montserrat_800ExtraBold',
 };
 
+export const TYPOGRAPHY_SCALE = 1.1;
+
 export const MAX_WIDTH = 1600; // overall site frame
 export const BP = { mobile: 700, desktop: 1400 };
 

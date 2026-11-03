@@ -14,8 +14,8 @@ export function Blog() {
     <View>
       <PageHero img="blog_hero" eyebrow="NEWS, BLOGS, EVENTS" title="News, Blogs & Events" titleSize={52} textWidth="50%" desktopAspectRatio={3.6} />
       <Section bg="#fff" vPad={isMobile ? 30 : 44}>
-        <T w="b" size={isMobile ? 20 : 24}>Insights. Tips. Opportunities.</T>
-        <T w="m" size={isMobile ? 14 : 17} color={COLORS.blue} lh={isMobile ? 22 : 26} style={{ marginTop: 8, marginBottom: 24 }}>
+        <T w="b" size={isMobile ? 24 : 28}>Insights. Tips. Opportunities.</T>
+        <T w="m" size={isMobile ? 18 : 21} color={COLORS.blue} lh={isMobile ? 25 : 29} style={{ marginTop: 8, marginBottom: 24 }}>
           Stay informed with the latest updates, expert advice and inspiring stories from the world of education, skills and global opportunities.
         </T>
         <View style={{ gap: 22 }}>
@@ -29,13 +29,13 @@ export function Blog() {
                   <Image source={a.src} style={{ width: '100%', height: '100%' }} resizeMode="cover" />
                 </View>
                 <View style={{ flex: 1, paddingVertical: isMobile ? 6 : 10, paddingHorizontal: isMobile ? 6 : 0 }}>
-                  <T w="m" size={12} color={COLORS.teal} style={{ letterSpacing: 1.5 }}>{p.category}</T>
-                  <T w="b" size={isMobile ? 18 : 22} lh={isMobile ? 26 : 30} style={{ marginTop: 6 }}>{p.title}</T>
+                  <T w="m" size={13} color={COLORS.teal} style={{ letterSpacing: 1.5 }}>{p.category}</T>
+                  <T w="b" size={isMobile ? 20 : 24} lh={isMobile ? 28 : 32} style={{ marginTop: 6 }}>{p.title}</T>
                   <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6, marginVertical: 10 }}>
-                    <Icon name="calendar-month-outline" size={16} color={COLORS.teal} />
-                    <T w="m" size={11}>{p.date}</T>
+                    <Icon name="calendar-month-outline" size={18} color={COLORS.teal} />
+                    <T w="m" size={12}>{p.date}</T>
                   </View>
-                  <T w="m" size={13} color={COLORS.text} lh={20} style={{ maxWidth: 520 }}>{p.summary}</T>
+                  <T w="m" size={isMobile ? 15 : 16} color={COLORS.text} lh={isMobile ? 23 : 24} style={{ maxWidth: 520 }}>{p.summary}</T>
                 </View>
                 <Btn label="Read More" variant="filledNavy" onPress={() => navigate('/blog/' + p.slug)} style={{ marginRight: isDesktop ? 40 : 0, alignSelf: isDesktop ? 'center' : 'flex-start', marginLeft: isDesktop ? 0 : 6, marginBottom: isDesktop ? 0 : 6 }} />
               </View>
@@ -56,14 +56,14 @@ export function BlogDetail() {
   return (
     <Section bg="#fff" vPad={isMobile ? 26 : 50} innerStyle={{ maxWidth: 980 }}>
       <Press onPress={() => navigate('/blog')} style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginBottom: 18 }}>
-        <Icon name="arrow-left" size={18} /><T w="sb" size={13}>Back to News, Blogs & Events</T>
+        <Icon name="arrow-left" size={20} /><T w="sb" size={14}>Back to News, Blogs & Events</T>
       </Press>
       <Image source={a.src} style={{ width: '100%', aspectRatio: 1.9, borderRadius: 10 }} resizeMode="cover" />
-      <T w="m" size={12} color={COLORS.teal} style={{ letterSpacing: 1.5, marginTop: 22 }}>{p.category}</T>
-      <T w="xb" size={isMobile ? 26 : 38} lh={isMobile ? 34 : 48} style={{ marginTop: 6 }}>{p.title}</T>
-      <T w="m" size={12} color={COLORS.muted} style={{ marginTop: 8, marginBottom: 20 }}>{p.date}</T>
-      <T w="m" size={16} color={COLORS.ink} lh={26} style={{ marginBottom: 14 }}>{p.summary}</T>
-      {SAMPLE_BODY.map((t, i) => <T key={i} w="r" size={16} color={COLORS.ink} lh={26} style={{ marginBottom: 14 }}>{t}</T>)}
+      <T w="m" size={13} color={COLORS.teal} style={{ letterSpacing: 1.5, marginTop: 22 }}>{p.category}</T>
+      <T w="xb" size={isMobile ? 28 : 40} lh={isMobile ? 36 : 50} style={{ marginTop: 6 }}>{p.title}</T>
+      <T w="m" size={13} color={COLORS.muted} style={{ marginTop: 8, marginBottom: 20 }}>{p.date}</T>
+      <T w="m" size={18} color={COLORS.ink} lh={30} style={{ marginBottom: 14 }}>{p.summary}</T>
+      {SAMPLE_BODY.map((t, i) => <T key={i} w="r" size={18} color={COLORS.ink} lh={30} style={{ marginBottom: 14 }}>{t}</T>)}
       <Btn label="Register / Enquire" variant="filledNavy" style={{ marginTop: 10 }} onPress={() => navigate('/contact')} />
     </Section>
   );

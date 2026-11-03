@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { Text, View, Pressable, Image, Platform } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { COLORS, FONT, MAX_WIDTH, useLayout } from './theme';
+import { COLORS, FONT, MAX_WIDTH, TYPOGRAPHY_SCALE, useLayout } from './theme';
 
 /** Text with Montserrat weights: w = r | m | sb | b | xb */
 export function T({ w = 'r', size = 16, color = COLORS.navy, align, lh, style, children, ...rest }) {
+  const fontSize = size * TYPOGRAPHY_SCALE;
   return (
     <Text
       {...rest}
-      style={[{ fontFamily: FONT[w], fontSize: size, color, textAlign: align, lineHeight: lh || Math.round(size * 1.5) }, style]}
+      style={[{
+        fontFamily: FONT[w],
+        fontSize,
+        color,
+        textAlign: align,
+        lineHeight: lh ? Math.round(lh * TYPOGRAPHY_SCALE) : Math.round(fontSize * 1.5),
+      }, style]}
     >
       {children}
     </Text>
