@@ -1,9 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import { ActivityIndicator, Platform, ScrollView, View } from 'react-native';
+import { ActivityIndicator, Platform, ScrollView, useWindowDimensions, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { useFonts } from 'expo-font';
 
-import { COLORS } from './src/theme/theme';
+import { COLORS, getWindowsDisplayScale } from './src/theme/theme';
 import { RouterProvider, useRouter } from './src/navigation/Router';
 import Header from './src/components/Header';
 import Footer from './src/components/Footer';
@@ -44,6 +44,8 @@ const FONTS = {
 
 function Shell() {
   const { route } = useRouter();
+  const { width, scale } = useWindowDimensions();
+  const displayScale = getWindowsDisplayScale(scale, width);
   const scroller = useRef(null);
   const Screen = SCREENS[route.name] || Home;
 
@@ -53,7 +55,13 @@ function Shell() {
   }, [route.path]);
 
   return (
-    <View style={{ flex: 1, width: '100%', backgroundColor: '#fff' }}>
+    <View style={{
+      flex: 1,
+      width: `${displayScale * 100}%`,
+      height: displayScale > 1 ? `${displayScale * 100}vh` : undefined,
+      zoom: 1 / displayScale,
+      backgroundColor: '#fff',
+    }}>
       <ScrollView ref={scroller} style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={Platform.OS === 'web'}>
         <View style={{ width: '100%', backgroundColor: '#fff', flexGrow: 1 }}>
           <Header />

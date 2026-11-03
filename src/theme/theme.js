@@ -1,4 +1,4 @@
-import { useWindowDimensions } from 'react-native';
+import { Platform, useWindowDimensions } from 'react-native';
 
 export const COLORS = {
   navy: '#222F63',
@@ -35,13 +35,21 @@ export const FONT = {
 export const MAX_WIDTH = 1600; // overall site frame
 export const BP = { mobile: 700, desktop: 1400 };
 
+export function getWindowsDisplayScale(scale, width) {
+  return Platform.OS === 'web' && width >= BP.mobile && typeof navigator !== 'undefined' && /^win/i.test(navigator.platform)
+    ? scale
+    : 1;
+}
+
 /** Responsive helper: the desktop layout matches the supplied designs;
  *  tablet/mobile re-flow the same content into stacked layouts. */
 export function useLayout() {
-  const { width: w } = useWindowDimensions();
-  const width = Math.min(w, MAX_WIDTH);
-  const isMobile = w < BP.mobile;
-  const isDesktop = w >= BP.desktop;
+  const { width: w, scale } = useWindowDimensions();
+  const displayScale = getWindowsDisplayScale(scale, w);
+  const layoutWidth = w * displayScale;
+  const width = Math.min(layoutWidth, MAX_WIDTH);
+  const isMobile = layoutWidth < BP.mobile;
+  const isDesktop = layoutWidth >= BP.desktop;
   const isTablet = !isMobile && !isDesktop;
   const pad = isMobile ? 20 : isTablet ? 36 : Math.round(Math.max(48, Math.min(96, width * 0.055)));
   // font scale so the 1440px design shrinks gracefully on desktop screens
