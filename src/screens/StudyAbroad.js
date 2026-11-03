@@ -92,7 +92,7 @@ export default function StudyAbroad() {
         </View>
         <T w="xb" size={isMobile ? 24 : 30} style={{ marginTop: 40, marginBottom: 18 }}>Our Support Includes</T>
         <Grid cols={isMobile ? 1 : isTablet ? 2 : 5} gap={isMobile ? 14 : 22}>
-          {sup.map((s) => <SupportCard key={s.title} {...s} minH={190} textScale={1.15} />)}
+          {sup.map((s) => <SupportCard key={s.title} {...s} minH={190} iconSize={100} textScale={1.15} />)}
         </Grid>
         <View style={{ marginTop: 34 }}><Destinations /></View>
       </Section>
