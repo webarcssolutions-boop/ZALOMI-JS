@@ -20,7 +20,7 @@ function Hero() {
   const artHeight = Math.min(isMobile ? 330 : 460, Math.max(220, (width - pad * 2) * 0.78));
   const text = (
     <View style={{ maxWidth: isDesktop ? 600 : 560 }}>
-      <T w="xb" size={h1} lh={Math.round(h1 * 1.2)}>Build Skills.{'\n'}Learn Languages.</T>
+      <T w="xb" size={h1} lh={Math.round(h1 * 1.2)}>Asses.{'\n'}Learn.{'\n'}Build Skills.</T>
       <T w="xb" size={h1} lh={Math.round(h1 * 1.2)} color={COLORS.indigo}>Go Global.</T>
       <T w="m" size={isMobile ? 15 : 18} color="#27A39B" style={{ marginTop: 18, maxWidth: 480 }}>
         Practical technology training and language pathways designed to prepare you for real - world careers.
@@ -64,9 +64,9 @@ function Tiles() {
   const { isMobile } = useLayout();
   const { navigate } = useRouter();
   const tiles = [
+    { icon: require('../../assets/images/home_icon_career.png'), title: 'Career Labs', sub: 'Discover your path', to: '/career-labs' },
     { icon: require('../../assets/images/home_icon_academy.png'), title: 'Academy', sub: 'Build your skills', to: '/academy' },
     { icon: require('../../assets/images/home_icon_care.png'), title: 'Zalomi Care', sub: 'Start your business', to: '/zalomi-care' },
-    { icon: require('../../assets/images/home_icon_career.png'), title: 'Career Labs', sub: 'Discover your path', to: '/career-labs' },
     { icon: require('../../assets/images/home_icon_abroad.png'), title: 'Study Abroad', sub: 'Go Global', to: '/study-abroad' },
   ];
   const cards = tiles.map((t) => (
@@ -122,9 +122,9 @@ function Programs() {
   const { navigate } = useRouter();
   const w = IMG.home_programs_woman;
   const cards = [
+    { img: 'home_card_career', icon: require('../../assets/images/home_icon_career.png'), title: 'Career Labs', desc: 'Discover your skills, explore careers, shape your future.', tint: '#E3F6F1', btn: '#6CCBB0', to: '/career-labs' },
     { img: 'home_card_academy', icon: require('../../assets/images/home_icon_academy.png'), title: 'Academy', desc: 'Build in -demand skills and industry ready confidence.', tint: '#E0F3FC', btn: '#5BC0EB', to: '/academy' },
     { img: 'home_card_care', icon: require('../../assets/images/home_icon_care.png'), title: 'Zalomi Care', desc: 'Guidance for your business journey from learning to launch.', tint: '#FDF3F5', btn: '#E8505B', to: '/zalomi-care' },
-    { img: 'home_card_career', icon: require('../../assets/images/home_icon_career.png'), title: 'Career Labs', desc: 'Discover your skills, explore careers, shape your future.', tint: '#E3F6F1', btn: '#6CCBB0', to: '/career-labs' },
     { img: 'home_card_abroad', icon: require('../../assets/images/home_icon_abroad.png'), title: 'Study Abroad', desc: 'Global education opportunities for a brighter tomorrow.', tint: '#DCEFFA', btn: COLORS.navy, to: '/study-abroad' },
   ];
   return (
